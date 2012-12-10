@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mgen", "Mgen\Mgen.vcxproj", "{7DA9D115-BB13-4C85-A8D9-3B4BE682416D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{019DBD2A-273D-4BA4-BF86-B5EFE2ED76B1} = {019DBD2A-273D-4BA4-BF86-B5EFE2ED76B1}
+		{2E7FAAD9-2F58-4BDE-81F2-1D6D3FB8BF57} = {2E7FAAD9-2F58-4BDE-81F2-1D6D3FB8BF57}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jpeg", "jpeg-8d\jpeg.vcxproj", "{019DBD2A-273D-4BA4-BF86-B5EFE2ED76B1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cjpeg", "jpeg-8d\cjpeg.vcxproj", "{2E7FAAD9-2F58-4BDE-81F2-1D6D3FB8BF57}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{86519712-928D-442B-B4ED-F99B5FD702E1}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		Mgen.vsmdi = Mgen.vsmdi
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Mgen.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7DA9D115-BB13-4C85-A8D9-3B4BE682416D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7DA9D115-BB13-4C85-A8D9-3B4BE682416D}.Debug|Win32.Build.0 = Debug|Win32
+		{7DA9D115-BB13-4C85-A8D9-3B4BE682416D}.Release|Win32.ActiveCfg = Release|Win32
+		{7DA9D115-BB13-4C85-A8D9-3B4BE682416D}.Release|Win32.Build.0 = Release|Win32
+		{019DBD2A-273D-4BA4-BF86-B5EFE2ED76B1}.Debug|Win32.ActiveCfg = Release|Win32
+		{019DBD2A-273D-4BA4-BF86-B5EFE2ED76B1}.Debug|Win32.Build.0 = Release|Win32
+		{019DBD2A-273D-4BA4-BF86-B5EFE2ED76B1}.Release|Win32.ActiveCfg = Release|Win32
+		{019DBD2A-273D-4BA4-BF86-B5EFE2ED76B1}.Release|Win32.Build.0 = Release|Win32
+		{2E7FAAD9-2F58-4BDE-81F2-1D6D3FB8BF57}.Debug|Win32.ActiveCfg = Release|Win32
+		{2E7FAAD9-2F58-4BDE-81F2-1D6D3FB8BF57}.Debug|Win32.Build.0 = Release|Win32
+		{2E7FAAD9-2F58-4BDE-81F2-1D6D3FB8BF57}.Release|Win32.ActiveCfg = Release|Win32
+		{2E7FAAD9-2F58-4BDE-81F2-1D6D3FB8BF57}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
