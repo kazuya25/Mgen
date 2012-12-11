@@ -1,21 +1,5 @@
 #include "Tester.h"
 #include <sstream>
-/*
-	Bibliotheque(void);
-
-	// Enregistre les noms des images dans un dossier NON récursivement !
-	// NE CHARGE PAS les images
-	Bibliotheque(string path);
-
-	// Enregistre les noms des images dans un dossier NON récursivement !
-	Bibliotheque(string path, bool toLoad);
-
-	~Bibliotheque(void);
-
-
-	void saveImagesInList(string path);
-	void loadImages(vector<Image>);
-*/
 
 void testBibiliotheque(){
 	Bibliotheque bib1 = Bibliotheque("./test");
@@ -47,6 +31,11 @@ void testBibiliotheque(){
 void testImage()
 {
 	//assert (1 == 0);
+
+	// Test de l'assignation
+	Image img0 = Image("test/Alep.jpg");
+	Image img0Copy = img0;
+	assert( img0 == img0Copy);
 
 	// Test des constructeurs
 	Image img1 = Image(7, 9);
@@ -96,4 +85,15 @@ void testImage2(){
 	vector<vector<Image> > vect = img1.decoupe(50,30);
 	Image img2 = Image(vect);
 	assert(img2.getMoyenne() == img1.getMoyenne() );
+	cout << "Tests de la classe 2 Image reussis" << endl;
+}
+
+void testMosaique(){
+	Bibliotheque bib = Bibliotheque("inputImages", true);
+	Mosaique mosaique = Mosaique(Image("test/Alep.jpg"), bib);
+	// A reparer !
+	//mosaique.creerMosaique("toto", 50, 50).save("C:\temp\toto.jpg");
+
+	cout << "Tests de la classe 2 Mosaique pas encore reussis" << endl;
+	cout << "Il manque encore une fonction de resize d'image" << endl;
 }

@@ -51,7 +51,11 @@ void Bibliotheque::saveImagesInList(string folderPath)
 	vector<string> files = getFilesInFolders(folderPath);
 	for (int i = 0; i < files.size(); i++) 
 	{
-		if( files[i].substr(files[i].length()-4, 4) == ".jpg" || files[i].substr(files[i].length()-5, 5) == ".jpeg")   
+		string end1 = files[i].substr(files[i].length()-4, 4);
+		string end2 = files[i].substr(files[i].length()-5, 5);
+		transform(end1.begin(), end1.end() , end1.begin(), ::tolower);
+		transform(end2.begin(), end2.end() , end2.begin(), ::tolower);
+		if( end1 == ".jpg" || end2 == ".jpeg")   
 			images.push_back(files[i]);
 	}
 }

@@ -72,6 +72,9 @@ public:
 	
 	// Crée l'operateur de comparaison 
 	bool operator==(const Image & a);
+
+	// Crée l'operateur d'assignation
+	void operator=(const Image &a);
 };
 
 #endif

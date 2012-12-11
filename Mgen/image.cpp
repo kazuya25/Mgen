@@ -206,6 +206,13 @@ bool Image::operator==(const Image & a)
 	return verification;
 }
 
+void Image::operator=(const Image & a)
+{
+	this->width = a.getWidth();
+	this->height = a.getHeight();
+	this->data = new unsigned char[3*width*height];
+	*data = *a.getData();
+}
 void Image::flipHorizontally()
 {
 	for(int y = 0; y < height / 2; y ++)
