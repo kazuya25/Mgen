@@ -3,7 +3,7 @@
 
 void testBibiliotheque(){
 	Bibliotheque bib1 = Bibliotheque("./test");
-	assert(bib1.images.size() == 2);
+	assert(bib1.images.size() == 4);
 	assert(bib1.images[0] == "./test/Alep.jpg");
 	assert(bib1.images[1] == "./test/Besancon.jpg");
 	assert(bib1.loadedImages.size() == 0);
@@ -11,7 +11,7 @@ void testBibiliotheque(){
 	assert(bib1.folders[0] == "./test");
 
 	Bibliotheque bib2 = Bibliotheque("./test", true);
-	assert(bib2.loadedImages.size() == 2);
+	assert(bib2.loadedImages.size() == 4);
 
 	Bibliotheque bib3 = Bibliotheque();
 	bib3.folders.push_back("./test");
@@ -19,11 +19,29 @@ void testBibiliotheque(){
 
 	bib3.saveImagesInList();
 	assert(bib3.loadedImages.size() == 0);
-	assert(bib3.images.size() == 2);
+	assert(bib3.images.size() == 4);
 
 	bib3.loadImages();
-	assert(bib3.images.size() == 2);
-	assert(bib3.loadedImages.size() == 2);
+	assert(bib3.images.size() == 4);
+	assert(bib3.loadedImages.size() == 4);
+
+	for(int i=0;i<4;i++) {
+		std::ostringstream oss;
+		oss << i<<".jpg";
+		bib3.loadedImages[i].save("testRedim/test_"+oss.str());
+	}
+
+	bib3.redimImageBib(50,50);
+	assert(bib3.images.size() == 4);
+	assert(bib3.loadedImages.size() == 4);
+	for(int i=0;i<4;i++) {
+		std::ostringstream oss;
+		oss << i<<".jpg";
+		assert(bib3.redimImages[i].getHeight() == 50);
+		assert(bib3.redimImages[i].getWidth() == 50);
+		
+		bib3.redimImages[i].save("testRedim/test"+oss.str());
+	}
 
 	cout << "Tests de la classe Bibliotheque reussis" << endl;
 
@@ -89,11 +107,14 @@ void testImage2(){
 }
 
 void testMosaique(){
-	Bibliotheque bib = Bibliotheque("inputImages", true);
-	Mosaique mosaique = Mosaique(Image("test/Alep.jpg"), bib);
-	// A reparer !
-	//mosaique.creerMosaique("toto", 50, 50).save("C:\temp\toto.jpg");
 
-	cout << "Tests de la classe 2 Mosaique pas encore reussis" << endl;
+	Bibliotheque bib = Bibliotheque("inputImages", true);
+	cout << "fin de la lecture des noms d'images" <<endl;
+	Mosaique mosaique = Mosaique(Image("inputImages/boulotaltia.jpg"), bib);
+	// A reparer !
+	cout << "Tests de la classe 2 "<<endl;
+	mosaique.creerMosaique("toto", 50, 50).save("testRecolle/toto_var.jpg");
+
+	cout << "Tests de la classe 2 Mosaique pas encore faits" << endl;
 	cout << "Il manque encore une fonction de resize d'image" << endl;
 }

@@ -114,3 +114,27 @@ void rotateAllImagesInFolder(string inputfolder, string outputfolder)
 
 	closedir(dp);
 }
+
+//Redimensionne toutes les images de la bibliotheques
+//Commence par /2 toutes les dimensions (moyenne des pixels sur des carres 2*2 -> 1*1)
+//Puis on centre l'image pour obtenir la bonne taille
+void Bibliotheque::redimImageBib(int tailleX,int tailleY) {
+	vector<Image> newLigne;
+	for(int i=0;i<this->loadedImages.size();i++) {
+		vector<Image> redimI;
+		redimI.push_back(loadedImages[i]);
+		while(redimI[redimI.size()-1].getWidth()/2 >= tailleX && redimI[redimI.size()-1].getHeight()/2 >= tailleY) {
+				redimI.push_back(redimI[redimI.size()-1].redim());
+			}
+
+		//	cout <<"while "<<redimI[redimI.size()-1].getWidth()<<" - - "<<redimI[redimI.size()-1].getHeight()<<endl;
+		int x = (redimI[redimI.size()-1].getWidth() - tailleX)/2 -1 ;
+		int y = (redimI[redimI.size()-1].getHeight() - tailleY)/2-1;
+		if(x<0) { x=0;}
+		if(y<0){y=0;}
+		//cout << x <<"   _ _ _ _  " << y <<endl;
+		newLigne.push_back(redimI[redimI.size()-1].subImage(x,y,tailleX,tailleY));
+	}
+	this->redimImages = newLigne;
+}
+

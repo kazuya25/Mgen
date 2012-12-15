@@ -17,4 +17,6 @@ public:
 	Image creerMosaique(string methode, int tailleX, int tailleY);
 	// trouve l'image la plus proche de a en terme de moyenne et présente dans la bibliotheque
 	Image plusProcheMoyenne(Image a);
+	// trouve l'image la plus proche de a en terme de variance et présente dans la bibliotheque
+	Image Mosaique::plusProcheVariance(Image a);
 };

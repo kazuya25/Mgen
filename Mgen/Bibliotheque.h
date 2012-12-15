@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <sstream>
 
 class Bibliotheque
 {
@@ -27,6 +28,8 @@ public:
 	void saveImagesInList(string folderPath);
 	void loadImages(vector<string>);
 	void loadImages();
+	//Redimensionne toutes les images de la bibliotheques
+	void redimImageBib(int tailleX,int tailleY);
 
 	// contient une liste d'images NON CHARGEES
 	vector<string> images;
@@ -34,6 +37,8 @@ public:
 	vector<Image> loadedImages;
 	// contient une liste de dossiers dont les images ne sont pas forcément chargees
 	vector<string> folders;
+	// contient une liste d'images CHARGEES redimensionnees
+	vector<Image> redimImages;
 };
 
 // fonction de manipulation d'images dans un dossier, pas besoin de dependance avec la classe bibliotheque

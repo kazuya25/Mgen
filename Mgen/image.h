@@ -62,7 +62,9 @@ public:
 
 	// Calcule la moyenne
 	double moyenneCalculateur();
-	
+	//Calcul la variance
+	double Image::varianceCalculateur();
+
 	// Rend la moyenne
 	// Si elle est déja calculée elle donne la moyenne
 	double getMoyenne();
@@ -75,6 +77,9 @@ public:
 
 	// Crée l'operateur d'assignation
 	void operator=(const Image &a);
+
+	Image Image::redim();
+	Image Image::scale(double s);
 };
 
 #endif

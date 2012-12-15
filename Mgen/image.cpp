@@ -277,6 +277,18 @@ double Image::moyenneCalculateur()
 	return moyenne;
 }
 
+double Image::varianceCalculateur()
+{
+	moyenne = this->getMoyenne();
+	double var = 0;
+	for (int i = 0; i < height; i++)
+		for (int j = 0; j < width; j++)
+			for (int c = 0; c < 3; c++)
+				var +=  ((*this)(j, i, c)-moyenne )*((*this)(j, i, c)-moyenne );
+	var /= 3 * height * width; 
+	return var;
+}
+
 double Image::getMoyenne()
 {
 	if (moyenne < 0)
@@ -285,4 +297,44 @@ double Image::getMoyenne()
 	}
 	else
 		return moyenne;
+}
+
+Image Image::redim() {
+	Image img = Image(this->width/2,this->height/2);
+	
+	for(int i=0;i<img.width;i++) {
+		for(int j=0;j<img.height;j++) {
+			for(int c=0;c<3;c++) {
+				int col = 0;
+				int x = (i+1)*2-1;
+				int y =(j+1)*2-1;
+				col += (*this)(x,y,c);
+				col += (*this)(x-1,y,c);
+				col += (*this)(x,y-1,c);
+				col += (*this)(x-1,y-1,c);
+				img(i,j,c) = col/4;
+			}
+		}
+	}
+	return img;
+}
+
+Image Image::scale(double s) {
+	Image img = Image((int)this->width/s,(int)this->height/s);
+	
+	for(int i=0;i<img.width;i++) {
+		for(int j=0;j<img.height;j++) {
+			for(int c=0;c<3;c++) {
+				int col = 0;
+				int x = (i+1)*s-1;
+				int y =(j+1)*s-1;
+				col += (*this)(x,y,c);
+				col += (*this)(x-1,y,c);
+				col += (*this)(x,y-1,c);
+				col += (*this)(x-1,y-1,c);
+				img(i,j,c) = col/4;
+			}
+		}
+	}
+	return img;
 }
