@@ -2,9 +2,31 @@
 
 using namespace std;
 
+
 Bibliotheque::Bibliotheque(void)
 {
 }
+
+//On va creer une bibli avec les couleurs primaires
+//Image de taille X*Y
+Bibliotheque::Bibliotheque(int tailleX,int tailleY) {
+	this->images.push_back("rouge.jpg");
+	this->loadedImages.push_back(Image(tailleX,tailleY,char(255),char(0),char(0)));
+	this->images.push_back("vert.jpg");
+	this->loadedImages.push_back(Image(tailleX,tailleY,char(0),char(255),char(0)));
+	this->images.push_back("bleu.jpg");
+	this->loadedImages.push_back(Image(tailleX,tailleY,char(0),char(0),char(255)));
+	this->images.push_back("jaune.jpg");
+	this->loadedImages.push_back( Image(tailleX,tailleY,char(255),char(255),char(0)));
+	this->images.push_back("magenta.jpg");
+	this->loadedImages.push_back(Image(tailleX,tailleY,char(255),char(0),char(255)));
+	this->images.push_back("cyan.jpg");
+	this->loadedImages.push_back(Image(tailleX,tailleY,char(0),char(255),char(255)));
+	this->images.push_back("blanc.jpg");
+	this->loadedImages.push_back(Image(tailleX,tailleY,char(255),char(255),char(255)));
+
+}
+
 
 Bibliotheque::Bibliotheque(string path)
 {

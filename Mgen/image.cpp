@@ -16,6 +16,29 @@ Image::Image(int width, int height)
 	for(int i=0; i < 3*width*height; i ++)
 		data[i] = 0;
 }
+
+Image::Image(int width, int height,char R,char V,char B) {
+	this->moyenne = -1;
+	this->width = width;
+	this->height = height;
+	this->data = new unsigned char[3 * width * height];
+	for(int i=0; i < 3*width*height; i ++) {
+		switch (i%3) {
+			case 0 :
+				this->data[i] = R;
+				break;
+			case 1:
+				this->data[i] = V;
+				break;
+			case 2:
+				this->data[i] = B;
+				break;
+		}
+	}
+	//cout <<"Image creer"<<R<<V<<B<<endl;
+
+}
+
 // Crée une image à partir de données brutes
 Image::Image(int newWidth, int newHeight, unsigned char* newData)
 {

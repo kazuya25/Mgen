@@ -13,6 +13,9 @@ public:
 	// Crée une bibliothèque vide
 	Bibliotheque(void);
 
+	// Crée une bibliothèque avec les couleurs primaires
+	Bibliotheque::Bibliotheque(int tailleX,int tailleY);
+
 	// Enregistre les noms des images dans un dossier NON récursivement !
 	// NE CHARGE PAS les images
 	Bibliotheque(string path);

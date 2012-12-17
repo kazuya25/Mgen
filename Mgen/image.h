@@ -20,6 +20,8 @@ public:
 	Image(string filename);
 	Image(int width, int height);
 	Image(int width, int height, unsigned char*);
+	//cree une image monochromatique
+	Image(int width, int height,char R,char V,char B);
 
 	// Attention la signature Image(Image &img); n'est pas un constructeur de copie usuel, il faut avoir un argument de type const TOUJOURS
 	// Sinon on ne peut pas utiliser les template comme vector etc...

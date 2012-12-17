@@ -31,18 +31,32 @@ void testBibiliotheque(){
 		bib3.loadedImages[i].save("testRedim/test_"+oss.str());
 	}
 
-	bib3.redimImageBib(50,50);
+	bib3.redimImageBib(180,30);
 	assert(bib3.images.size() == 4);
 	assert(bib3.loadedImages.size() == 4);
 	for(int i=0;i<4;i++) {
 		std::ostringstream oss;
 		oss << i<<".jpg";
-		assert(bib3.redimImages[i].getHeight() == 50);
-		assert(bib3.redimImages[i].getWidth() == 50);
+		assert(bib3.redimImages[i].getHeight() == 30);
+		assert(bib3.redimImages[i].getWidth() == 180);
 		
 		bib3.redimImages[i].save("testRedim/test"+oss.str());
 	}
+	
+	//TEst de la bibli monochromatique
+	cout <<"Test bib" << endl;
+	Bibliotheque bib4 = Bibliotheque(50,80);
 
+	for(int i=0;i<7;i++) {
+		bib4.loadedImages[i].save("testMono/"+bib4.images[i]);
+	}
+	
+	Bibliotheque bib5 = Bibliotheque("testMono",true);
+	assert(bib5.images.size()==7);
+	for(int i=0;i<7;i++) {
+		cout<<bib5.images[i]<<"  -   "<< bib5.loadedImages[i].getMoyenne()<<endl;
+		//assert(bib5.loadedImages[i].getMoyenne() == 255/(3*50*80) || bib5.loadedImages[i].getMoyenne() == 2*255/(3*50*80) || bib5.loadedImages[i].getMoyenne() == 255 );
+	}
 	cout << "Tests de la classe Bibliotheque reussis" << endl;
 
 }
@@ -103,17 +117,24 @@ void testImage2(){
 	vector<vector<Image> > vect = img1.decoupe(50,30);
 	Image img2 = Image(vect);
 	assert(img2.getMoyenne() == img1.getMoyenne() );
+
+	//test image monochromatique
+	Image img3 = Image(10,40,1,1,1);
+	for(int i=0;i<3*10*40;i++) {
+		assert(img3.getData()[i]==1);
+	}
+	img3.save("testRecolle/mono.jpg");
 	cout << "Tests de la classe 2 Image reussis" << endl;
 }
 
 void testMosaique(){
 
-	Bibliotheque bib = Bibliotheque("inputImages", true);
+	Bibliotheque bib = Bibliotheque("testMono", true);
 	cout << "fin de la lecture des noms d'images" <<endl;
 	Mosaique mosaique = Mosaique(Image("inputImages/boulotaltia.jpg"), bib);
 	// A reparer !
 	cout << "Tests de la classe 2 "<<endl;
-	mosaique.creerMosaique("toto", 50, 50).save("testRecolle/toto_var.jpg");
+	mosaique.creerMosaique("toto", 10, 20).save("testRecolle/toto_mono.jpg");
 
 	cout << "Tests de la classe 2 Mosaique pas encore faits" << endl;
 	cout << "Il manque encore une fonction de resize d'image" << endl;
