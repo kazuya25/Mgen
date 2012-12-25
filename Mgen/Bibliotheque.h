@@ -29,8 +29,10 @@ public:
 	void saveImagesInList();
 	void saveImagesInList(vector<string> folderList);
 	void saveImagesInList(string folderPath);
+	
 	void loadImages(vector<string>);
 	void loadImages();
+	
 	//Redimensionne toutes les images de la bibliotheques
 	void redimImageBib(int tailleX,int tailleY);
 

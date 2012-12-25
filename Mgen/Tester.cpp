@@ -55,7 +55,7 @@ void testBibiliotheque(){
 	assert(bib5.images.size()==7);
 	for(int i=0;i<7;i++) {
 		cout<<bib5.images[i]<<"  -   "<< bib5.loadedImages[i].getMoyenne()<<endl;
-		//assert(bib5.loadedImages[i].getMoyenne() == 255/(3*50*80) || bib5.loadedImages[i].getMoyenne() == 2*255/(3*50*80) || bib5.loadedImages[i].getMoyenne() == 255 );
+		//assert(bib5.loadedImages[i].getMoyenne() == 255/3 || bib5.loadedImages[i].getMoyenne() == 2*255/(3) || bib5.loadedImages[i].getMoyenne() == 255 || bib5.loadedImages[i].getMoyenne() ==0  );
 	}
 	cout << "Tests de la classe Bibliotheque reussis" << endl;
 
@@ -117,13 +117,18 @@ void testImage2(){
 	vector<vector<Image> > vect = img1.decoupe(50,30);
 	Image img2 = Image(vect);
 	assert(img2.getMoyenne() == img1.getMoyenne() );
-
+	assert(1 == (int)img2.covarianceCalculateur(img1));
+	
+	Image img22 = Image("test/Alep.jpg");
+	assert(img22.covarianceCalculateur(img2) == img2.covarianceCalculateur(img22));
 	//test image monochromatique
 	Image img3 = Image(10,40,1,1,1);
 	for(int i=0;i<3*10*40;i++) {
 		assert(img3.getData()[i]==1);
 	}
 	img3.save("testRecolle/mono.jpg");
+
+
 	cout << "Tests de la classe 2 Image reussis" << endl;
 }
 
@@ -131,11 +136,28 @@ void testMosaique(){
 
 	Bibliotheque bib = Bibliotheque("testMono", true);
 	cout << "fin de la lecture des noms d'images" <<endl;
-	Mosaique mosaique = Mosaique(Image("inputImages/boulotaltia.jpg"), bib);
+	Mosaique mosaique = Mosaique(Image("test/Alep.jpg"), bib);
 	// A reparer !
 	cout << "Tests de la classe 2 "<<endl;
-	mosaique.creerMosaique("toto", 10, 20).save("testRecolle/toto_mono.jpg");
-
+	int tailleX = 5;
+	int tailleY = 5;
+	bib.redimImageBib(tailleX,tailleY);
+	mosaique.creerMosaique("Covariance", tailleX,tailleY).save("testRecolle/Alep_mono_cov.jpg");
+	mosaique.creerMosaique("Moyenne", tailleX,tailleY).save("testRecolle/Alep_mono_moyCol.jpg");
+	mosaique.creerMosaique("Moyenne Old", tailleX,tailleY).save("testRecolle/Alep_mono_moy.jpg");
+	mosaique.creerMosaique("New", tailleX,tailleY).save("testRecolle/Alep_mono_byColCov.jpg");
+	
+	Bibliotheque bib2 = Bibliotheque("test", true);
+	cout << "fin de la lecture des noms d'images" <<endl;
+	Mosaique mosaique2 = Mosaique(Image("test/Alep.jpg"), bib2);
+	// A reparer !
+	cout << "Tests de la classe 2 "<<endl;
+	bib2.redimImageBib(tailleX,tailleY);
+	mosaique2.creerMosaique("Covariance", tailleX,tailleY).save("testRecolle/Alep_Input_cov.jpg");
+	mosaique2.creerMosaique("Moyenne", tailleX,tailleY).save("testRecolle/Alep_Input_moyCol.jpg");
+	mosaique2.creerMosaique("Moyenne Old", tailleX,tailleY).save("testRecolle/Alep_Input_moy.jpg");
+	mosaique2.creerMosaique("New", tailleX,tailleY).save("testRecolle/Alep_Input_byColCov.jpg");
+	
 	cout << "Tests de la classe 2 Mosaique pas encore faits" << endl;
 	cout << "Il manque encore une fonction de resize d'image" << endl;
 }

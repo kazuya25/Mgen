@@ -27,13 +27,16 @@ Bibliotheque::Bibliotheque(int tailleX,int tailleY) {
 
 }
 
-
+//Cree une bibliotheque
+//Charge seulement le nom des images dans un vecteur
 Bibliotheque::Bibliotheque(string path)
 {
 	saveImagesInList(path);
 	folders.push_back(path);
 }
-
+////Cree une bibliotheque
+//Charge le nom des images dans un vecteur 
+//et selon bool charge aussi des objets images
 Bibliotheque::Bibliotheque(string path, bool toLoad)
 {
 	saveImagesInList(path);
@@ -43,11 +46,12 @@ Bibliotheque::Bibliotheque(string path, bool toLoad)
 		loadImages(images);
 	}
 }
-
+//Charge les images contenu dans le vecteur de noms d'image (attribut)
 void Bibliotheque::loadImages()
 {
 	loadImages(images);
 }
+//Charge les images contenu dans le vecteur de noms d'image (parametre)
 void Bibliotheque::loadImages(vector<string> imagesToLoad)
 {
 	
@@ -57,10 +61,13 @@ void Bibliotheque::loadImages(vector<string> imagesToLoad)
 	}
 }
 
+//Sauvegarde les images provenant de la liste de dossier (attribut)
 void Bibliotheque::saveImagesInList()
 {
 	saveImagesInList(folders);
 }
+
+//Sauvegarde les images provenant de la liste de dossier (parametre)
 void Bibliotheque::saveImagesInList(vector<string> folderList)
 {
 	for(int i = 0; i < (int) folderList.size(); i++)
@@ -68,6 +75,7 @@ void Bibliotheque::saveImagesInList(vector<string> folderList)
 		saveImagesInList(folderList[i]);
 	}
 }
+//Sauvegarde les images provenant d'un dossier (attribut)
 void Bibliotheque::saveImagesInList(string folderPath)
 {
 	vector<string> files = getFilesInFolders(folderPath);
@@ -81,10 +89,11 @@ void Bibliotheque::saveImagesInList(string folderPath)
 			images.push_back(files[i]);
 	}
 }
-
+//Destructeur 
 Bibliotheque::~Bibliotheque(void)
 {
 }
+//Renvoie un vecteur de noms de fichier qui ne contienne pas aExclure
 vector<string> getFilesInFolders(string folderPath, string aExclure)
 {
 	vector<string> files;
@@ -103,12 +112,12 @@ vector<string> getFilesInFolders(string folderPath, string aExclure)
 	closedir(dp);
 	return files;
 }
-
+//Renvoie les fichiers contenu dans un dossier (parametre)
 vector<string> getFilesInFolders(string folderPath)
 {
 	return getFilesInFolders(folderPath, "");
 }
-
+//Retourne toutes les images contenu dans la bibliotheque
 void rotateAllImagesInFolder(string inputfolder, string outputfolder)
 {
 	DIR *dp;
@@ -141,7 +150,10 @@ void rotateAllImagesInFolder(string inputfolder, string outputfolder)
 //Commence par /2 toutes les dimensions (moyenne des pixels sur des carres 2*2 -> 1*1)
 //Puis on centre l'image pour obtenir la bonne taille
 void Bibliotheque::redimImageBib(int tailleX,int tailleY) {
+
+	//this->redimImages = (vector<Image>)realloc(sizeof(vector<Image>));
 	vector<Image> newLigne;
+
 	for(int i=0;i<this->loadedImages.size();i++) {
 		vector<Image> redimI;
 		redimI.push_back(loadedImages[i]);

@@ -63,13 +63,21 @@ public:
 	Image subImage(int x, int y, int sizeX, int sizeY);
 
 	// Calcule la moyenne
-	double moyenneCalculateur();
+	double Image::moyenneCalculateur();
+	// Calcule la moyenne RVB (par couleur)
+	double Image::moyenneCalculateurRVB(int col);
 	//Calcul la variance
 	double Image::varianceCalculateur();
-
+	// Calcule la variance RVB (par couleur)
+	double varianceCalculateurRVB(int col);
+	//Calcul covariance
+	double Image::covarianceCalculateur(Image &img);
+	//Calcul covariance RVB (par couleur)
+	double Image::covarianceCalculateurRVB(Image &img,int col);
+	double Image::moyenneDifference(Image &img);
 	// Rend la moyenne
 	// Si elle est déja calculée elle donne la moyenne
-	double getMoyenne();
+	double Image::getMoyenne();
 
 	// Crée l'operateur parenthèse
 	unsigned char & operator()(int x, int y, int i);
@@ -81,7 +89,6 @@ public:
 	void operator=(const Image &a);
 
 	Image Image::redim();
-	Image Image::scale(double s);
 };
 
 #endif
