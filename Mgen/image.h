@@ -64,6 +64,8 @@ public:
 
 	// Calcule la moyenne
 	double Image::moyenneCalculateur();
+	// Calcule la moyenne pour un pixel
+	double Image::moyenneCalculateur(int x,int y);
 	// Calcule la moyenne RVB (par couleur)
 	double Image::moyenneCalculateurRVB(int col);
 	//Calcul la variance

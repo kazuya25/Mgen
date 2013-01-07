@@ -293,6 +293,15 @@ void Image::colle(Image img, int x, int y)
 			for (int c = 0; c < 3; c++)
 				(*this)(x + j, y + i, c) = img(j, i, c);
 }
+//Calcul la moyenne des couleurs d'un pixel
+double Image::moyenneCalculateur(int x,int y) {
+	double moy = 0;
+	for(int i=0;i<3;i++) {
+		moy += (*this)(x,y,i);
+	}
+	return moy/3;
+}
+
 //Calcul la moyenne des couleurs d'une image
 double Image::moyenneCalculateur()
 {
@@ -431,9 +440,7 @@ double Image::moyenneDifference(Image &img) {
 		double tmp=0;
 		for(int i=0;i<this->width;i++) {
 			for(int j=0;j<this->height;j++) {
-				for(int c=0;c<3;c++) {
-					tmp += (((*this)(i,j,c) - img(i,j,c))/255)*(((*this)(i,j,c) - img(i,j,c))/255);
-				}
+				tmp += (this->moyenneCalculateur(i,j) - img.moyenneCalculateur(i,j))*(this->moyenneCalculateur(i,j) - img.moyenneCalculateur(i,j))/(255*255);
 			}
 		}
 		return tmp;

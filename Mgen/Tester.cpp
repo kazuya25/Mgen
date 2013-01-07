@@ -142,10 +142,10 @@ void testMosaique(){
 	int tailleX = 5;
 	int tailleY = 5;
 	bib.redimImageBib(tailleX,tailleY);
-	mosaique.creerMosaique("Covariance", tailleX,tailleY).save("testRecolle/Alep_mono_cov.jpg");
+	//mosaique.creerMosaique("Covariance", tailleX,tailleY).save("testRecolle/Alep_mono_cov.jpg");
 	mosaique.creerMosaique("Moyenne", tailleX,tailleY).save("testRecolle/Alep_mono_moyCol.jpg");
-	mosaique.creerMosaique("Moyenne Old", tailleX,tailleY).save("testRecolle/Alep_mono_moy.jpg");
-	mosaique.creerMosaique("New", tailleX,tailleY).save("testRecolle/Alep_mono_byColCov.jpg");
+	//mosaique.creerMosaique("Moyenne Old", tailleX,tailleY).save("testRecolle/Alep_mono_moy.jpg");
+	mosaique.creerMosaique("New", tailleX,tailleY).save("testRecolle/Alep_mono_byRMSE.jpg");
 	
 	Bibliotheque bib2 = Bibliotheque("test", true);
 	cout << "fin de la lecture des noms d'images" <<endl;
@@ -153,10 +153,10 @@ void testMosaique(){
 	// A reparer !
 	cout << "Tests de la classe 2 "<<endl;
 	bib2.redimImageBib(tailleX,tailleY);
-	mosaique2.creerMosaique("Covariance", tailleX,tailleY).save("testRecolle/Alep_Input_cov.jpg");
+	//mosaique2.creerMosaique("Covariance", tailleX,tailleY).save("testRecolle/Alep_Input_cov.jpg");
 	mosaique2.creerMosaique("Moyenne", tailleX,tailleY).save("testRecolle/Alep_Input_moyCol.jpg");
-	mosaique2.creerMosaique("Moyenne Old", tailleX,tailleY).save("testRecolle/Alep_Input_moy.jpg");
-	mosaique2.creerMosaique("New", tailleX,tailleY).save("testRecolle/Alep_Input_byColCov.jpg");
+	//mosaique2.creerMosaique("Moyenne Old", tailleX,tailleY).save("testRecolle/Alep_Input_moy.jpg");
+	mosaique2.creerMosaique("New", tailleX,tailleY).save("testRecolle/Alep_Input_byRMSE.jpg");
 	
 	cout << "Tests de la classe 2 Mosaique pas encore faits" << endl;
 	cout << "Il manque encore une fonction de resize d'image" << endl;

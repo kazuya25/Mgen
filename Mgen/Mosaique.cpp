@@ -31,11 +31,11 @@ Image Mosaique::creerMosaique(string methode, int tailleX, int tailleY)
 			}else if (methode=="Covariance"){
 				Image img = Image(plusProcheCovariance(ligne[j]));
 				newLigne.push_back(img.subImage(0,0,ligne[j].getWidth(),ligne[j].getHeight()));
-			}else if(methode=="%Moyenne Old"){
+			}else if(methode=="Moyenne Old"){
 				Image img = Image(plusProcheMoyenne(ligne[j]));
 				newLigne.push_back(img.subImage(0,0,ligne[j].getWidth(),ligne[j].getHeight()));
 			}else{
-				Image img = Image(plusProcheCovarianceByCouleur(ligne[j]));
+				Image img = Image(RMSE(ligne[j])); //plusProcheCovarianceByCouleur(ligne[j]));
 				newLigne.push_back(img.subImage(0,0,ligne[j].getWidth(),ligne[j].getHeight()));
 			}
 		}
