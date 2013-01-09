@@ -62,21 +62,25 @@ public:
 	// Extrait une image de taille sizeX x sizeY en partant du point (x,y) (à partir du coin en haut à gauche)
 	Image subImage(int x, int y, int sizeX, int sizeY);
 
-	// Calcule la moyenne
+	// Calcule la moyenne des 3 couleurs par pixels sur toute la grille
 	double Image::moyenneCalculateur();
-	// Calcule la moyenne pour un pixel
+	// Calcule la moyenne des 3 couleurs pour un pixel
 	double Image::moyenneCalculateur(int x,int y);
 	// Calcule la moyenne RVB (par couleur)
 	double Image::moyenneCalculateurRVB(int col);
-	//Calcul la variance
+	
+	//Calcul la variance des 3 couleurs par pixels sur toute la grille
 	double Image::varianceCalculateur();
 	// Calcule la variance RVB (par couleur)
 	double varianceCalculateurRVB(int col);
-	//Calcul covariance
+	//Calcul covariance des 3 couleurs par pixels sur toute la grille
 	double Image::covarianceCalculateur(Image &img);
 	//Calcul covariance RVB (par couleur)
 	double Image::covarianceCalculateurRVB(Image &img,int col);
+
+	//Calcul la somme des RMSE par couleur
 	double Image::moyenneDifference(Image &img);
+	
 	// Rend la moyenne
 	// Si elle est déja calculée elle donne la moyenne
 	double Image::getMoyenne();
@@ -90,6 +94,7 @@ public:
 	// Crée l'operateur d'assignation
 	void operator=(const Image &a);
 
+	//Redimensionne l'image par 2
 	Image Image::redim();
 };
 

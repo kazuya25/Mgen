@@ -14,6 +14,7 @@ public:
 	//Accesseur 
 	Bibliotheque Mosaique::getBibliotheque();
 	Image Mosaique::getModele();
+	void Mosaique::setBibliotheque(Bibliotheque *bib);
 
 	//Cree une mosaique du modele a partir des images de la bibliotheque
 	Image creerMosaique(string methode, int tailleX, int tailleY);
@@ -27,13 +28,14 @@ public:
 	// trouve l'image la plus proche de a en terme de variance et présente dans la bibliotheque
 	Image Mosaique::plusProcheVariance(Image a);
 	
-	//SOrte de moiindres carre inneficace...
+	//Moindre Carre couleur par couleur
 	Image Mosaique::RMSE(Image a);
 	
 	
 	// trouve l'image la plus proche de a en terme de moyenne et présente dans la bibliotheque
 	//Mais en minimisant l'ecart de covariance par couleur
 	Image Mosaique::plusProcheMoyenneByCouleur(Image a);
+	
 	// trouve l'image la plus proche de a en terme de Covariance et présente dans la bibliotheque
 	//Mais en minimisant l'ecart de covariance par couleur
 	Image Mosaique::plusProcheCovarianceByCouleur(Image a);

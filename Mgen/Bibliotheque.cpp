@@ -7,9 +7,10 @@ Bibliotheque::Bibliotheque(void)
 {
 }
 
-//On va creer une bibli avec les couleurs primaires
+//On va creer une bibli avec les couleurs primaires et charger les images
 //Image de taille X*Y
 Bibliotheque::Bibliotheque(int tailleX,int tailleY) {
+	redim = false;
 	this->images.push_back("rouge.jpg");
 	this->loadedImages.push_back(Image(tailleX,tailleY,char(255),char(0),char(0)));
 	this->images.push_back("vert.jpg");
@@ -31,6 +32,7 @@ Bibliotheque::Bibliotheque(int tailleX,int tailleY) {
 //Charge seulement le nom des images dans un vecteur
 Bibliotheque::Bibliotheque(string path)
 {
+	redim = false;
 	saveImagesInList(path);
 	folders.push_back(path);
 }
@@ -39,6 +41,7 @@ Bibliotheque::Bibliotheque(string path)
 //et selon bool charge aussi des objets images
 Bibliotheque::Bibliotheque(string path, bool toLoad)
 {
+	redim = false;
 	saveImagesInList(path);
 	folders.push_back(path);
 	if (toLoad)
@@ -150,7 +153,8 @@ void rotateAllImagesInFolder(string inputfolder, string outputfolder)
 //Commence par /2 toutes les dimensions (moyenne des pixels sur des carres 2*2 -> 1*1)
 //Puis on centre l'image pour obtenir la bonne taille
 void Bibliotheque::redimImageBib(int tailleX,int tailleY) {
-
+	redim = true;
+	cout << "Redimensionnement des images " <<endl;
 	//this->redimImages = (vector<Image>)realloc(sizeof(vector<Image>));
 	vector<Image> newLigne;
 

@@ -36,8 +36,6 @@ Image::Image(int width, int height,char R,char V,char B) {
 				break;
 		}
 	}
-	//cout <<"Image creer"<<R<<V<<B<<endl;
-
 }
 
 // Crée une image à partir de données brutes
@@ -440,7 +438,10 @@ double Image::moyenneDifference(Image &img) {
 		double tmp=0;
 		for(int i=0;i<this->width;i++) {
 			for(int j=0;j<this->height;j++) {
-				tmp += (this->moyenneCalculateur(i,j) - img.moyenneCalculateur(i,j))*(this->moyenneCalculateur(i,j) - img.moyenneCalculateur(i,j))/(255*255);
+				//tmp += (this->moyenneCalculateur(i,j) - img.moyenneCalculateur(i,j))*(this->moyenneCalculateur(i,j) - img.moyenneCalculateur(i,j))/(255*255);
+				for(int c=0;c<3;c++) {
+					tmp += ((*this)(i,j,c)-img(i,j,c))*((*this)(i,j,c)-img(i,j,c));
+				}
 			}
 		}
 		return tmp;

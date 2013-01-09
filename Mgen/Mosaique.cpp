@@ -11,11 +11,21 @@ Image Mosaique::getModele() {
 	return this->modele;
 }
 
+void Mosaique::setBibliotheque(Bibliotheque *bib) {
+	this->bibliotheque = bib;
+}
+
 // Les images de la bibliotheque doivent avoir été redimensionne auparavant
 //Puis on cherche celle qui correspondent le mieu à nos sous images
 Image Mosaique::creerMosaique(string methode, int tailleX, int tailleY)
 {
-	//this->bibliotheque->redimImageBib(tailleX,tailleY);
+	if(!this->bibliotheque->redim ||  this->bibliotheque->redimImages[0].getWidth() != tailleX || this->bibliotheque->redimImages[0].getHeight() != tailleY) {
+		if(this->bibliotheque->redimImages.size() != 0) {
+			this->bibliotheque->redimImages.clear();
+		}
+		this->bibliotheque->redimImageBib(tailleX,tailleY);
+	}
+
 	vector<vector<Image> > images = modele.decoupe(tailleX, tailleY);
 	vector<vector<Image> > newImages;
 	for (int i = 0 ; i < images.size(); i++)

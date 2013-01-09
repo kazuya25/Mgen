@@ -44,6 +44,9 @@ public:
 	vector<string> folders;
 	// contient une liste d'images CHARGEES redimensionnees
 	vector<Image> redimImages;
+	//Un booleen pour le redimensionnement des images
+	bool redim;
+
 };
 
 // fonction de manipulation d'images dans un dossier, pas besoin de dependance avec la classe bibliotheque
