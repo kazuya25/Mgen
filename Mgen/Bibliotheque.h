@@ -1,3 +1,4 @@
+#define _INC_BIB
 #include <iostream>
 #include <cstdio>
 #include "image.h"
@@ -6,6 +7,8 @@
 #include <vector>
 #include <algorithm>
 #include <sstream>
+#include <ctime>
+
 
 class Bibliotheque
 {
@@ -33,8 +36,11 @@ public:
 	void loadImages(vector<string>);
 	void loadImages();
 	
-	//Redimensionne toutes les images de la bibliotheques
-	void redimImageBib(int tailleX,int tailleY);
+	// Redimensionne toutes les images de la bibliotheques
+	// La variable useLoadedImages va déterminer quel ensemble d'images utiliser : préchargées (this->loadedImages) ou non (this->images)
+	// Soit les images sont préchargées et on utilise le vecteur d'images "this->loadedImages"
+	// Soit les images ne sont pas chargées, on les charges à la volée et on utilise le vecteur de "string this->images"
+	void redimImageBib(int tailleX,int tailleY, bool useLoadedImages);
 
 	// contient une liste d'images NON CHARGEES
 	vector<string> images;

@@ -7,10 +7,11 @@ Bibliotheque::Bibliotheque(void)
 {
 }
 
-//On va creer une bibli avec les couleurs primaires et charger les images
-//Image de taille X*Y
+//Crée une bibliothèque avec les couleurs primaires (additives et soustractives) ainsi que le blanc et charge ces images
+//Ces images ont une taille imposée de tailleX * tailleY (arguments)
 Bibliotheque::Bibliotheque(int tailleX,int tailleY) {
 	redim = false;
+	// On enregistre les noms de fichiers au cas ou on souhaiterait enregistrer les fichiers.
 	this->images.push_back("rouge.jpg");
 	this->loadedImages.push_back(Image(tailleX,tailleY,char(255),char(0),char(0)));
 	this->images.push_back("vert.jpg");
@@ -36,6 +37,7 @@ Bibliotheque::Bibliotheque(string path)
 	saveImagesInList(path);
 	folders.push_back(path);
 }
+
 ////Cree une bibliotheque
 //Charge le nom des images dans un vecteur 
 //et selon bool charge aussi des objets images
@@ -49,11 +51,13 @@ Bibliotheque::Bibliotheque(string path, bool toLoad)
 		loadImages(images);
 	}
 }
+
 //Charge les images contenu dans le vecteur de noms d'image (attribut)
 void Bibliotheque::loadImages()
 {
 	loadImages(images);
 }
+
 //Charge les images contenu dans le vecteur de noms d'image (parametre)
 void Bibliotheque::loadImages(vector<string> imagesToLoad)
 {
@@ -92,10 +96,12 @@ void Bibliotheque::saveImagesInList(string folderPath)
 			images.push_back(files[i]);
 	}
 }
-//Destructeur 
+
+//Destructeur
 Bibliotheque::~Bibliotheque(void)
 {
 }
+
 //Renvoie un vecteur de noms de fichier qui ne contienne pas aExclure
 vector<string> getFilesInFolders(string folderPath, string aExclure)
 {
@@ -149,30 +155,53 @@ void rotateAllImagesInFolder(string inputfolder, string outputfolder)
 	closedir(dp);
 }
 
-//Redimensionne toutes les images de la bibliotheques
+//Redimensionne toutes les images de la bibliotheque
 //Commence par /2 toutes les dimensions (moyenne des pixels sur des carres 2*2 -> 1*1)
 //Puis on centre l'image pour obtenir la bonne taille
-void Bibliotheque::redimImageBib(int tailleX,int tailleY) {
+void Bibliotheque::redimImageBib(int tailleX, int tailleY, bool useLoadedImages) {
 	redim = true;
-	cout << "Redimensionnement des images " <<endl;
-	//this->redimImages = (vector<Image>)realloc(sizeof(vector<Image>));
-	vector<Image> newLigne;
+	cout << "- Redimensionnement des images" << endl;
+	vector<Image> newImages;
 
-	for(int i=0;i<this->loadedImages.size();i++) {
-		vector<Image> redimI;
-		redimI.push_back(loadedImages[i]);
-		while(redimI[redimI.size()-1].getWidth()/2 >= tailleX && redimI[redimI.size()-1].getHeight()/2 >= tailleY) {
-				redimI.push_back(redimI[redimI.size()-1].redim());
+	int size = useLoadedImages?loadedImages.size():images.size();
+
+	int avancement = 0;
+	clock_t debut,fin;
+	debut = clock();
+
+	for(int i=0; i<size; i++) {
+		Image* redimI;
+
+		int newAvancement = (int)(i * 100 / size);
+		if (newAvancement > avancement){
+			avancement = newAvancement;
+			cout << avancement << "% .. ";
+		}
+
+		if (useLoadedImages) redimI = new Image(loadedImages[i]);
+		else redimI = new Image(images[i]);
+
+		while(redimI->getWidth()/2 >= tailleX && redimI->getHeight()/2 >= tailleY) {
+				Image tempImage = redimI->redim();
+				delete redimI;
+				redimI = new Image(tempImage);
 			}
 
-		//	cout <<"while "<<redimI[redimI.size()-1].getWidth()<<" - - "<<redimI[redimI.size()-1].getHeight()<<endl;
-		int x = (redimI[redimI.size()-1].getWidth() - tailleX)/2 -1 ;
-		int y = (redimI[redimI.size()-1].getHeight() - tailleY)/2-1;
-		if(x<0) { x=0;}
-		if(y<0){y=0;}
-		//cout << x <<"   _ _ _ _  " << y <<endl;
-		newLigne.push_back(redimI[redimI.size()-1].subImage(x,y,tailleX,tailleY));
+		int x = (redimI->getWidth() - tailleX)/2 -1 ;
+		int y = (redimI->getHeight() - tailleY)/2-1;
+		if(x<0) x = 0;
+		if(y<0) y = 0;
+
+		newImages.push_back(redimI->subImage(x,y,tailleX,tailleY));
+		delete redimI;
 	}
-	this->redimImages = newLigne;
+	this->redimImages = newImages;
+	fin = clock();
+
+	cout << endl;
+	cout << " => Stats : " << endl;
+	cout << "  -> Nombre de fichiers : " << size << endl;
+	cout << "  -> Duree : " << fin - debut << endl;
+	cout << "- Redimensionnement des images OK" << endl;
 }
 

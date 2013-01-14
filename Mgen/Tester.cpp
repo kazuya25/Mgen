@@ -2,6 +2,7 @@
 #include <sstream>
 
 void testBibiliotheque(){
+	cout << "Tests de la classe Bibliotheque" << endl;
 	Bibliotheque bib1 = Bibliotheque("./test");
 	assert(bib1.images.size() == 4);
 	assert(bib1.images[0] == "./test/Alep.jpg");
@@ -31,7 +32,7 @@ void testBibiliotheque(){
 		bib3.loadedImages[i].save("testRedim/test_"+oss.str());
 	}
 
-	bib3.redimImageBib(180,30);
+	bib3.redimImageBib(180,30, true);
 	assert(bib3.images.size() == 4);
 	assert(bib3.loadedImages.size() == 4);
 	for(int i=0;i<4;i++) {
@@ -43,22 +44,22 @@ void testBibiliotheque(){
 		bib3.redimImages[i].save("testRedim/test"+oss.str());
 	}
 	
-	//TEst de la bibli monochromatique
-	cout <<"Test bib" << endl;
+	//Test de la bibli monochromatique
 	Bibliotheque bib4 = Bibliotheque(50,80);
-	for(int i=0;i<7;i++) {
-		bib4.loadedImages[i].save("testMono/"+bib4.images[i]);
+	for(int i=0; i<bib4.loadedImages.size() ;i++) {
+		(bib4.loadedImages[i]).save("testMono/" + bib4.images[i]);
 	}
 	
 	Bibliotheque bib5 = Bibliotheque("testMono",true);
 	assert(bib5.images.size()==7);
 
-	cout << "Tests de la classe Bibliotheque reussis" << endl;
+	cout << "Tests de la classe Bibliotheque ..... OK" << endl;
 
 }
 void testImage()
 {
 	//assert (1 == 0);
+	cout << "Tests de la classe Image -> 1er batch" << endl;
 
 	// Test de l'assignation
 	Image img0 = Image("test/Alep.jpg");
@@ -105,18 +106,29 @@ void testImage()
 
 	img4 == img2;
 	assert(img4 == img2);
-	cout << "Tests de la classe Image reussis" << endl;
+	cout << "Tests de la classe Image -> 1er batch ..... OK" << endl;
 }
 
 void testImage2(){
+	cout << "Tests de la classe Image -> 2eme batch" << endl;
 	Image img1 = Image("test/Alep.jpg");
 	vector<vector<Image> > vect = img1.decoupe(50,30);
 	Image img2 = Image(vect);
-	assert(img2.getMoyenne() == img1.getMoyenne() );
+
 	assert(1 == (int)img2.covarianceCalculateur(img1));
 	
 	Image img22 = Image("test/Alep.jpg");
 	assert(img22.covarianceCalculateur(img2) == img2.covarianceCalculateur(img22));
+	
+	//Test du monochromatiseur
+	Image img23 = Image("test/Alep.jpg");
+	Image img24 = img23.monochromatise();
+	img24.save("otherTests/monoAlep.jpg");
+	for(int i=0;i<img24.getWidth() * img24.getHeight() * 3;i+=3) {
+		assert(img24.getData()[i] == img24.getData()[i+1]);
+		assert(img24.getData()[i+2] == img24.getData()[i+1]);
+	}
+
 	//test image monochromatique
 	Image img3 = Image(10,40,1,1,1);
 	for(int i=0;i<3*10*40;i++) {
@@ -125,33 +137,57 @@ void testImage2(){
 	img3.save("testRecolle/mono.jpg");
 
 
-	cout << "Tests de la classe 2 Image reussis" << endl;
+	cout << "Tests de la classe Image -> 2eme batch ..... OK" << endl;
 }
 
 void testMosaique(){
 
-	Bibliotheque bib = Bibliotheque(5,20);
-	cout << "fin de la lecture des noms d'images" <<endl;
-	Mosaique mosaique = Mosaique(Image("inputImages/images (6).jpg"), bib);
+	Bibliotheque bib = Bibliotheque(50,50);
+	int tailleX = 8;
+	int tailleY = 8;
+	Mosaique mosaique = Mosaique(Image("test/Besancon.jpg"), bib);
+	mosaique.creerMosaique("SuperMSE", tailleX, tailleY, true).save("otherTests/BesanconSuperMSE.jpg");
+	mosaique.creerMosaique("Moyenne", tailleX, tailleY, true).save("otherTests/BesanconMoy.jpg");
+	mosaique.creerMosaique("MoyenneCol", tailleX, tailleY, true).save("otherTests/BesanconMoyCol.jpg");
+	mosaique.creerMosaique("Variance", tailleX, tailleY, true).save("otherTests/BesanconVar.jpg");
+	mosaique.creerMosaique("VarianceCol", tailleX, tailleY, true).save("otherTests/BesanconVarCol.jpg");
+	mosaique.creerMosaique("Covariance", tailleX, tailleY, true).save("otherTests/BesanconCov.jpg");
+	mosaique.creerMosaique("CovarianceCol", tailleX, tailleY, true).save("otherTests/BesanconCovCol.jpg");
+	mosaique.creerMosaique("MSE", tailleX, tailleY, true).save("otherTests/BesanconMSE.jpg");
+	mosaique.creerMosaique("MoyenneColInt", tailleX, tailleY, true).save("otherTests/BesanconMoyColInt.jpg");
 	
+	tailleX = 80;
+	tailleY = 80;
+	Bibliotheque bib2 = Bibliotheque("C:\\tofs2", false);
+	Mosaique mosaique2 = Mosaique(Image("C:\\P1060196.JPG"), bib2);
+	mosaique2.creerMosaique("SuperMSE", tailleX, tailleY, false).save("otherTests/myTestSuperMSE.jpg");
+	mosaique2.creerMosaique("Moyenne", tailleX, tailleY, false).save("otherTests/myTestMoy.jpg");
+	mosaique2.creerMosaique("MoyenneCol", tailleX, tailleY, false).save("otherTests/myTestMoyCol.jpg");
+	mosaique2.creerMosaique("MoyenneColInt", tailleX, tailleY, false).save("otherTests/myTestColInt.jpg");
+	mosaique2.creerMosaique("Covariance", tailleX, tailleY, false).save("otherTests/myTestCov.jpg");
+	mosaique2.creerMosaique("MSE", tailleX, tailleY, false).save("otherTests/myTestMSE.jpg");
+	/*
+	//mosaique.creerMosaique("Covariance", tailleX,tailleY).save("outputImages/altia_mono_cov.jpg");
+	//mosaique.creerMosaique("Covariance", tailleX,tailleY).save("outputImages/altia_mono_cov.jpg");
+	//mosaique.creerMosaique("Covariance", tailleX,tailleY).save("outputImages/altia_mono_cov.jpg");
+	//Mosaique mosaique = Mosaique(Image("C:\\P1060196.JPG"), bib);
 	
-	cout << "Tests de la classe 2 "<<endl;
-	int tailleX = 5;
-	int tailleY = 7;
+	//cout << "Tests de la classe 2 "<<endl;
+
 //	bib.redimImageBib(tailleX,tailleY);
 	//mosaique.creerMosaique("Covariance", tailleX,tailleY).save("outputImages/altia_mono_cov.jpg");
 //	mosaique.creerMosaique("Moyenne", tailleX,tailleY).save("outputImages/altia_moyCol.jpg");
 	//mosaique.creerMosaique("Moyenne Old", tailleX,tailleY).save("outputImages/altia_mono_moy.jpg");
 //	mosaique.creerMosaique("New", tailleX,tailleY).save("outputImages/altia_byRMSE.jpg");
 	
-	Bibliotheque bib2 = Bibliotheque("inputImages", true);
+	
 	mosaique.setBibliotheque(&bib2);
 
 	//mosaique.creerMosaique("Covariance", tailleX,tailleY).save("outputImages/Alep_Input_cov.jpg");
-	mosaique.creerMosaique("Moyenne", tailleX,tailleY).save("outputImages/Alep_TETE_moyCol.jpg");
+	mosaique.creerMosaique("Moyenne", tailleX,tailleY).save("outputImages/test.jpg");
 	//mosaique.creerMosaique("Moyenne Old", tailleX,tailleY).save("outputImages/Alep_Input_moy.jpg");
-	mosaique.creerMosaique("New", tailleX,tailleY - 2).save("outputImages/TEET2_Input_byRMSE.jpg");
-	
+	mosaique.creerMosaique("RMSE", tailleX, tailleY).save("outputImages/test2.jpg");
+	*/
 	cout << "Tests de la classe 2 Mosaique pas encore faits" << endl;
 	cout << "Il manque encore une fonction de resize d'image" << endl;
 }

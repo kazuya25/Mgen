@@ -5,18 +5,23 @@
 int main(int argc, char *argv[])
 {
 	// Lance une batterie de tests pour l'aide au developpement (merci de toujours garder ces tests)
-	//testImage();
-//	testBibiliotheque();
-//	testMosaique();
+	// Dans l'ordre de création
+	testBibiliotheque();
+	testImage();
+	testImage2();
+	testMosaique();
+	getchar();
+	return 0;
+	/*
 	bool user = true;
 	string modele;
 	string bib;
 	cout << "Bienvenue dans le créateur de mosaique" <<endl;
 	cout << "Entrez le chemion vers l'image que vous voulez mosaiquez :" <<endl;
 	cin >> modele;
-	cout << "Entrez le nom du repertoire que vous souhaitez utilisez comme bibliotheque d'image " <<endl;
+	cout << "Entrez le nom du repertoire que vous souhaitez utilisez comme bibliotheque d'image " << endl;
 	cin >> bib;
-	getchar();
+	//getchar();
 	cout << "Nous dimensionnons toujours les images par des carres de 10*10"<<endl;
 	Bibliotheque bibli = Bibliotheque(bib, true);
 	Mosaique mosaique = Mosaique(Image(modele), bibli);
@@ -31,8 +36,9 @@ int main(int argc, char *argv[])
 		cout << " 4 - Changement Modele"<<endl;
 		cout << " 5 - Quitter "<<endl;
 		cin >> choice;
-		getchar();
-		switch (choix) {
+		//getchar();
+		
+		switch (choice) {
 		case 1 :
 			cout << " Entrez le repertoire de sortie de l'image" <<endl;
 			cin >> sortie;
@@ -56,7 +62,7 @@ int main(int argc, char *argv[])
 			break;
 		}
 	}
-
+	*/
 	//testImage2();
 	cout << "Appuyer sur entree pour quitter" << endl;
 	getchar();

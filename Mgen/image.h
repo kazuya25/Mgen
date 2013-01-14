@@ -5,16 +5,21 @@
 #include <string>
 #include <cstdio>
 #include <vector>
+#include <map>
+
 using namespace std;
 
+const string intToColors[] = {"R", "V", "B"};
 class Image
 {
 private:
 	unsigned char*	data;
 	int	width;
 	int	height;
-	double moyenne;
+	map<string, double> stats;
+
 public: 
+	/** -------------------- CONSTRUCTEURS ----------------------*/
 	// Attention on ne peut réassigner 2 fois une meme image : Image img = Image(...) puis img = Image(....) est interdit car ca crée une fuite mémoire !
 	// D'ailleurs pour l'instant l'opérateur = n'est pas défini
 	Image(string filename);
@@ -33,9 +38,19 @@ public:
 	// Ce destructeur est obligatoire puisqu'on alloue la mémoire pour la variable *data
 	~Image();
 
-	// Charge une image a partir d'un chemin
-	void load(string filename);
 
+	/** -------------------- OPERATEURS ----------------------*/
+	// Crée l'operateur parenthèse
+	unsigned char & operator()(int x, int y, int i);
+	
+	// Crée l'operateur de comparaison 
+	bool operator==(const Image & a);
+
+	// Crée l'operateur d'assignation
+	void operator=(const Image &a);
+
+
+	/** -------------------- GETTERS ----------------------*/
 	// renvoie la largeur de l'image
 	int getWidth() const;
 
@@ -45,6 +60,13 @@ public:
 	// renvoie les données brutes des l'image
 	unsigned char * getData() const;
 
+	// renvoie une statistique de type double (la calcule si elle n'a pas déja été calculée)
+	// Moyenne/MoyenneR/MoyenneV/MoyenneB/Variance/VarianceR/VarianceV/VarianceB
+	double get(string);
+
+	/** -------------------- Traitement de l'image ----------------------*/
+	// Charge une image a partir d'un chemin
+	void load(string filename);
 	// Sauvegarde l'image dans un fichier
 	void save(string filename);
 
@@ -62,15 +84,25 @@ public:
 	// Extrait une image de taille sizeX x sizeY en partant du point (x,y) (à partir du coin en haut à gauche)
 	Image subImage(int x, int y, int sizeX, int sizeY);
 
+	// Redimensionne l'image par 2
+	Image redim();
+
+	// Transforme l'image en noir et blanc (monochromatiseur)
+	Image monochromatise();
+
+	/** -------------------- Calculs ----------------------*/
 	// Calcule la moyenne des 3 couleurs par pixels sur toute la grille
-	double Image::moyenneCalculateur();
+	double moyenneCalculateur();
+
 	// Calcule la moyenne des 3 couleurs pour un pixel
-	double Image::moyenneCalculateur(int x,int y);
+	double moyenneCalculateur(int x,int y);
+
 	// Calcule la moyenne RVB (par couleur)
-	double Image::moyenneCalculateurRVB(int col);
+	double moyenneCalculateurRVB(int col);
 	
 	//Calcul la variance des 3 couleurs par pixels sur toute la grille
-	double Image::varianceCalculateur();
+	double varianceCalculateur();
+
 	// Calcule la variance RVB (par couleur)
 	double varianceCalculateurRVB(int col);
 	//Calcul covariance des 3 couleurs par pixels sur toute la grille
@@ -80,22 +112,65 @@ public:
 
 	//Calcul la somme des RMSE par couleur
 	double Image::moyenneDifference(Image &img);
-	
-	// Rend la moyenne
-	// Si elle est déja calculée elle donne la moyenne
-	double Image::getMoyenne();
 
-	// Crée l'operateur parenthèse
-	unsigned char & operator()(int x, int y, int i);
-	
-	// Crée l'operateur de comparaison 
-	bool operator==(const Image & a);
+	//Calcul la somme des RMSE par couleur
+	double Image::superMSE(Image &img);
 
-	// Crée l'operateur d'assignation
-	void operator=(const Image &a);
-
-	//Redimensionne l'image par 2
-	Image Image::redim();
+	/****************** DEPRECATED*/
 };
 
+
+/*
+//Deprecated
+class ComparableComputing{
+public:
+	bool computed;
+	// +1 si supérieur, 0 si égal, -1 sinon
+	virtual short compare(ComparableComputing & s) = 0;
+	virtual void compute() = 0;
+};
+
+
+class Statistique : public ComparableComputing{
+protected:
+	Image* image;
+public:
+	Statistique(Image* img):image(img){computed = false;};
+	virtual short compare(ComparableComputing & s){throw "You must overload the \"compare\" method"; return 0;};
+	
+	bool operator<(Statistique & s){
+		return compare(s) < 0;
+	};
+	bool operator>(Statistique & s){
+		return compare(s) > 0;
+	};
+	bool operator>=(Statistique & s){
+		return compare(s) >= 0;
+	};
+	bool operator<=(Statistique & s){
+		return compare(s) <= 0;
+	};
+	bool operator==(Statistique & s){
+		return compare(s) == 0;
+	};
+	bool operator!=(Statistique & s){
+		return compare(s) != 0;
+	};
+	double operator()();
+	// Détruit obligatoirement le lien avec l'image de sorte que quand l'image se détruit,
+	// on détruit d'abord ce lien puis l'image (pas de mémory leak)
+	~Statistique(){image = NULL;};
+};
+
+class Moyenne : public Statistique{
+private:
+	double moyenne;
+public:
+	Moyenne(Image* img):Statistique(img){computed = true; compute();};
+	short compare(ComparableComputing & s);
+	double getMoyenne();
+	void compute();
+	double operator()(){return getMoyenne();};
+};
+*/
 #endif

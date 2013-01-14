@@ -8,4 +8,4 @@ void testImage();
 void testBibiliotheque();
 void testImage2();
 void testMosaique();
-void testImage3();
+void testStatistique();
