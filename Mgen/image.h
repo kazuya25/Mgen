@@ -1,5 +1,5 @@
-#ifndef IMAGE
-#define IMAGE
+#ifndef _INC_IMAGE_H
+#define _INC_IMAGE_H
 
 #include <iostream>
 #include <string>
@@ -105,72 +105,18 @@ public:
 
 	// Calcule la variance RVB (par couleur)
 	double varianceCalculateurRVB(int col);
+	
 	//Calcul covariance des 3 couleurs par pixels sur toute la grille
 	double Image::covarianceCalculateur(Image &img);
+
 	//Calcul covariance RVB (par couleur)
 	double Image::covarianceCalculateurRVB(Image &img,int col);
 
-	//Calcul la somme des RMSE par couleur
+	//Calcul la somme des MSE par couleur
 	double Image::moyenneDifference(Image &img);
 
-	//Calcul la somme des RMSE par couleur
-	double Image::superMSE(Image &img);
-
-	/****************** DEPRECATED*/
+	//Calcul la somme des MSE par couleur et monochromatique
+	double Image::superMSE(Image &img, unsigned int);
 };
 
-
-/*
-//Deprecated
-class ComparableComputing{
-public:
-	bool computed;
-	// +1 si supérieur, 0 si égal, -1 sinon
-	virtual short compare(ComparableComputing & s) = 0;
-	virtual void compute() = 0;
-};
-
-
-class Statistique : public ComparableComputing{
-protected:
-	Image* image;
-public:
-	Statistique(Image* img):image(img){computed = false;};
-	virtual short compare(ComparableComputing & s){throw "You must overload the \"compare\" method"; return 0;};
-	
-	bool operator<(Statistique & s){
-		return compare(s) < 0;
-	};
-	bool operator>(Statistique & s){
-		return compare(s) > 0;
-	};
-	bool operator>=(Statistique & s){
-		return compare(s) >= 0;
-	};
-	bool operator<=(Statistique & s){
-		return compare(s) <= 0;
-	};
-	bool operator==(Statistique & s){
-		return compare(s) == 0;
-	};
-	bool operator!=(Statistique & s){
-		return compare(s) != 0;
-	};
-	double operator()();
-	// Détruit obligatoirement le lien avec l'image de sorte que quand l'image se détruit,
-	// on détruit d'abord ce lien puis l'image (pas de mémory leak)
-	~Statistique(){image = NULL;};
-};
-
-class Moyenne : public Statistique{
-private:
-	double moyenne;
-public:
-	Moyenne(Image* img):Statistique(img){computed = true; compute();};
-	short compare(ComparableComputing & s);
-	double getMoyenne();
-	void compute();
-	double operator()(){return getMoyenne();};
-};
-*/
 #endif

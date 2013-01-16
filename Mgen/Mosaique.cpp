@@ -1,6 +1,8 @@
+#ifndef _INC_MOSAIQUE_CPP
+#define _INC_MOSAIQUE_CPP
+
 #include "Mosaique.h"
-#include "Bibliotheque.h"
-#include <sstream>
+//#include "Bibliotheque.h"
 
 //Accesseur
 Bibliotheque Mosaique::getBibliotheque() {
@@ -15,6 +17,8 @@ void Mosaique::setBibliotheque(Bibliotheque *bib) {
 	this->bibliotheque = bib;
 }
 
+
+
 // Les images de la bibliotheque doivent avoir été redimensionne auparavant
 //Puis on cherche celle qui correspondent le mieu à nos sous images
 Image Mosaique::creerMosaique(string methode, int tailleX, int tailleY, bool useLoadedImages)
@@ -22,17 +26,34 @@ Image Mosaique::creerMosaique(string methode, int tailleX, int tailleY, bool use
 	if(!this->bibliotheque->redim ||  this->bibliotheque->redimImages[0].getWidth() != tailleX || this->bibliotheque->redimImages[0].getHeight() != tailleY) {
 		this->bibliotheque->redimImageBib(tailleX, tailleY, useLoadedImages);
 	}
+
 	vector<vector<Image> > images = modele.decoupe(tailleX, tailleY);
 	vector<vector<Image> > newImages;
+	Image (Mosaique::*fct)(Image) = NULL;
+	if      (methode == "Moyenne")			fct = &Mosaique::plusProcheMoyenne;
+	else if (methode == "MoyenneCol")		fct = &Mosaique::plusProcheMoyenneByCouleur;
+	else if (methode == "Variance")			fct = &Mosaique::plusProcheVariance;
+	else if (methode == "VarianceCol")		fct = &Mosaique::plusProcheVarianceByCouleur;
+	else if (methode == "Covariance")		fct = &Mosaique::plusProcheCovariance;
+	else if (methode == "CovarianceCol")	fct = &Mosaique::plusProcheCovarianceByCouleur;
+	else if (methode == "MSE")				fct = &Mosaique::MSE;
+	else if (methode == "MoyenneColInt")	fct = &Mosaique::plusProcheCouleurIntensite;
+	else if (methode == "SuperMSE")			fct = &Mosaique::superMSE;
+	else throw "Cette methode n'existe pas : '" + methode + "' !";
+
+
 	for (int i = 0 ; i < images.size(); i++)
 	{
 		vector<Image> ligne = images[i];
 		vector<Image> newLigne;
 		//cout << "Image "<<i<<endl;
 		for (int j = 0; j < ligne.size(); j++){
+			Image img = Image((this->*fct)(ligne[j]));
+			newLigne.push_back(img.subImage(0,0,ligne[j].getWidth(),ligne[j].getHeight()));
+			/*
 			if(methode == "Moyenne"){
 				Image img = Image(plusProcheMoyenne(ligne[j]));
-				newLigne.push_back(img.subImage(0,0,ligne[j].getWidth(),ligne[j].getHeight()));
+				
 			}else if(methode == "MoyenneCol") {
 				Image img = Image(plusProcheMoyenneByCouleur(ligne[j]));
 				newLigne.push_back(img.subImage(0,0,ligne[j].getWidth(),ligne[j].getHeight()));
@@ -58,11 +79,12 @@ Image Mosaique::creerMosaique(string methode, int tailleX, int tailleY, bool use
 				Image img = Image(superMSE(ligne[j]));
 				newLigne.push_back(img.subImage(0,0,ligne[j].getWidth(),ligne[j].getHeight()));
 			}else throw "Cette methode n'existe pas : '" + methode + "' !";
-
+			*/
 			
 		}
 		newImages.push_back(newLigne);
 	}
+	
 	return(Image(newImages));
 }
 
@@ -188,7 +210,7 @@ Image Mosaique::superMSE(Image a) {
 	for(int i = 0; i < (bibliotheque->redimImages).size(); i++)
 	{
 		Image img = (bibliotheque->redimImages)[i].subImage(0,0,a.getWidth(),a.getHeight());
-		double toCompare = img.superMSE(a);
+		double toCompare = img.superMSE(a,1);
 		if (toCompare < bestCompare) 
 		{
 			bestInd = i;
@@ -243,3 +265,4 @@ Image Mosaique::plusProcheCouleurIntensite(Image a)
 	}
 	return (bibliotheque->redimImages)[bestInd];
 }
+#endif

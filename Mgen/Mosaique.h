@@ -1,6 +1,11 @@
-#include "image.h";
+#ifndef _INC_MOSAIQUE_H
+#define _INC_MOSAIQUE_H
 
-class Bibliotheque;
+#include <sstream>
+#include "Bibliotheque.h"
+#include "image.h"
+
+//class Bibliotheque;
 
 class Mosaique
 {
@@ -11,44 +16,43 @@ public:
 	// Prend une image appellee modele et une bibliotheque
 	Mosaique(Image & const  mod, Bibliotheque & const  bib) : modele(mod), bibliotheque(&bib){};
 	//Accesseur 
-	Bibliotheque Mosaique::getBibliotheque();
-	Image Mosaique::getModele();
-	void Mosaique::setBibliotheque(Bibliotheque *bib);
+	Bibliotheque getBibliotheque();
+	Image getModele();
+	void setBibliotheque(Bibliotheque *bib);
 
 	//Cree une mosaique du modele a partir des images de la bibliotheque
 	Image creerMosaique(string methode, int tailleX, int tailleY, bool useLoadedImages);
 	
-
-	// 1- trouve l'image la plus proche de a en terme de moyenne et présente dans la bibliotheque
+	// trouve l'image la plus proche de a en terme de moyenne et présente dans la bibliotheque
 	Image plusProcheMoyenne(Image a);
 
-	// 2- trouve l'image la plus proche de a en terme de moyenne pour chacune des couleurs et présente dans la bibliotheque
+	// trouve l'image la plus proche de a en terme de moyenne pour chacune des couleurs et présente dans la bibliotheque
 	// On somme l'erreur quadratique des erreurs pour chacunes des couleurs et on compare
-	Image Mosaique::plusProcheMoyenneByCouleur(Image a);
+	Image plusProcheMoyenneByCouleur(Image a);
 
-	// 3- trouve l'image la plus proche de a en terme de variance et présente dans la bibliotheque
-	Image Mosaique::plusProcheVariance(Image a);
+	// trouve l'image la plus proche de a en terme de variance et présente dans la bibliotheque
+	Image plusProcheVariance(Image a);
 
-	// 4- trouve l'image la plus proche de a en terme de variance par couleur et présente dans la bibliotheque
+	// trouve l'image la plus proche de a en terme de variance par couleur et présente dans la bibliotheque
 	// On somme l'erreur quadratique des erreurs pour chacunes des couleurs et on compare
-	Image Mosaique::plusProcheVarianceByCouleur(Image a);
+	Image plusProcheVarianceByCouleur(Image a);
 
 	// trouve l'image la plus proche de a en terme de Covariance et présente dans la bibliotheque
-	Image Mosaique::plusProcheCovariance(Image a);
+	Image plusProcheCovariance(Image a);
 
 	//
-	Image Mosaique::plusProcheCouleurIntensite(Image a);
+	Image plusProcheCouleurIntensite(Image a);
 
-	
-	
 	//Moindre Carre couleur par couleur
-	Image Mosaique::MSE(Image a);
+	Image MSE(Image a);
 	
-	//
-	Image Mosaique::superMSE(Image a);
+	//MSE en utilisant la norme 1
+	Image superMSE(Image a);
 	
 	// trouve l'image la plus proche de a en terme de Covariance et présente dans la bibliotheque
 	// Mais en minimisant l'ecart de covariance par couleur
-	Image Mosaique::plusProcheCovarianceByCouleur(Image a);
-
+	Image plusProcheCovarianceByCouleur(Image a);
+	void function(void* arg);
 };
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef _INC_IMAGE_CPP
+#define _INC_IMAGE_CPP
+
 #include "image.h"
 
 // Pour faire marcher jpeglib il faut aller dans Proprieties>C/C++>General>Additional Include Directories
@@ -471,74 +474,35 @@ double Image::moyenneDifference(Image &img) {
 		double tmp=0;
 		for(int i=0;i<this->width;i++) {
 			for(int j=0;j<this->height;j++) {
-				//tmp += (this->moyenneCalculateur(i,j) - img.moyenneCalculateur(i,j))*(this->moyenneCalculateur(i,j) - img.moyenneCalculateur(i,j))/(255*255);
 				for(int c=0;c<3;c++) {
 					tmp += pow((double)(*this)(i,j,c)-img(i,j,c), 2);
 				}
 			}
 				
 		}
-		return sqrt(tmp);//sqrt(256*256*256)
+		return sqrt(tmp);
 	}
 }
 
-double Image::superMSE(Image &img) {
+
+// TODO !
+// A retoucher !
+double Image::superMSE(Image &img, unsigned int power) {
 	if(this->width != img.width || this->height!=img.height) {
 		cout << "Attention vous calculez une covariance sur des img de taille différentes"<<endl;
 		throw "Attention vous calculez une covariance sur des img de taille différentes";
 	}else{
 		double tmp=0;
+		vector<vector<double> > error;
 		for(int i=0;i<this->width;i++) {
 			for(int j=0;j<this->height;j++) {
-				//tmp += (this->moyenneCalculateur(i,j) - img.moyenneCalculateur(i,j))*(this->moyenneCalculateur(i,j) - img.moyenneCalculateur(i,j))/(255*255);
 				for(int c=0;c<3;c++) {
-					tmp += pow((double)(*this)(i,j,c)-img(i,j,c), 2);
-					for (int l=-2; l<3; l++)
-						for (int k = -2; k <3; k++){
-							if(i+k>=0 && i+k<width && j+l>=0 && j+l<height)
-								tmp += pow((double)(*this)(i+k,j+l,c)-img(i+k,j+l,c), 2)/pow((double)abs(k)+abs(l)+1, 2);
-						}
+					tmp += pow(abs((double)(*this)(i,j,c)-img(i,j,c)), (double) power);
 				}
 			}
 				
 		}
-		return sqrt(tmp);//sqrt(256*256*256)
+		return pow(tmp, (double) 1/power);
 	}
 }
-/*
-//------------------------------- Moyenne
-short Moyenne::compare(ComparableComputing & s) {
-	Moyenne* m = static_cast<Moyenne*>(&s); 
-	if (m->getMoyenne() < moyenne) return -1;
-	else if (m->getMoyenne() < moyenne) return 1;
-	else return 0;
-	return false;
-}
-
-void Moyenne::compute(){
-	//Calcul la moyenne des couleurs d'une image
-	moyenne = 0;
-	for (int i = 0; i < image->getHeight(); i++)
-		for (int j = 0; j < image->getWidth(); j++)
-			for (int c = 0; c < 3; c++)
-				moyenne += (*image)(j, i, c);
-	moyenne /= 3 * image->getHeight() * image->getWidth();
-}
-double Moyenne::getMoyenne(){
-	if (moyenne == -1) compute();
-	return moyenne;
-}
-
-
-Statistique* Image::getStat(string stat){
-	if (stats.count(stat)){
-		return stats[stat];
-	}
-	if (stat == "Moyenne") {
-		Statistique * statistic = new Moyenne(this);
-		stats[stat] = statistic;
-		return stats[stat];
-	}
-	throw "La statistique \"" + stat + "\" n\'existe pas";
-}
-*/
+#endif

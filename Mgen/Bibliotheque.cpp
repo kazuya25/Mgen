@@ -1,4 +1,7 @@
+#ifndef _INC_BIBLIOTHEQUE_CPP
+#define _INC_BIBLIOTHEQUE_CPP
 #include "Bibliotheque.h"
+
 
 using namespace std;
 
@@ -155,6 +158,24 @@ void rotateAllImagesInFolder(string inputfolder, string outputfolder)
 	closedir(dp);
 }
 
+bool folderExists(string dir){
+	DIR  *dip;
+	if ((dip = opendir(dir.c_str())) == NULL) {
+		cout << "Ce dossier '" << dir << " n'est pas accessible avec ce programme (Veuillez verifier l'existence et/ou les droits)" << endl;
+		return false;
+	}
+	return true;
+};
+
+bool fileExists(string file){
+	DIR  *dip;
+	FILE * pFile = fopen (file.c_str(),"r");
+	if ( pFile == NULL) {
+		cout << "Ce fichier '" << file << " n'est pas accessible avec ce programme (Veuillez verifier l'existence et/ou les droits)" << endl;
+		return false;
+	} else fclose(pFile);
+	return true;
+};
 //Redimensionne toutes les images de la bibliotheque
 //Commence par /2 toutes les dimensions (moyenne des pixels sur des carres 2*2 -> 1*1)
 //Puis on centre l'image pour obtenir la bonne taille
@@ -205,3 +226,4 @@ void Bibliotheque::redimImageBib(int tailleX, int tailleY, bool useLoadedImages)
 	cout << "- Redimensionnement des images OK" << endl;
 }
 
+#endif

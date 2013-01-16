@@ -1,5 +1,5 @@
 #include "Tester.h"
-#include <sstream>
+
 
 void testBibiliotheque(){
 	cout << "Tests de la classe Bibliotheque" << endl;
@@ -10,6 +10,8 @@ void testBibiliotheque(){
 	assert(bib1.loadedImages.size() == 0);
 	assert(bib1.folders.size() == 1);
 	assert(bib1.folders[0] == "./test");
+
+	assert(folderExists("./test") == true);
 
 	Bibliotheque bib2 = Bibliotheque("./test", true);
 	assert(bib2.loadedImages.size() == 4);
@@ -141,53 +143,21 @@ void testImage2(){
 }
 
 void testMosaique(){
-
+	cout <<	"Test de la classe Mosaique" << endl;
 	Bibliotheque bib = Bibliotheque(50,50);
-	int tailleX = 8;
-	int tailleY = 8;
-	Mosaique mosaique = Mosaique(Image("test/Besancon.jpg"), bib);
-	mosaique.creerMosaique("SuperMSE", tailleX, tailleY, true).save("otherTests/BesanconSuperMSE.jpg");
-	mosaique.creerMosaique("Moyenne", tailleX, tailleY, true).save("otherTests/BesanconMoy.jpg");
-	mosaique.creerMosaique("MoyenneCol", tailleX, tailleY, true).save("otherTests/BesanconMoyCol.jpg");
-	mosaique.creerMosaique("Variance", tailleX, tailleY, true).save("otherTests/BesanconVar.jpg");
-	mosaique.creerMosaique("VarianceCol", tailleX, tailleY, true).save("otherTests/BesanconVarCol.jpg");
-	mosaique.creerMosaique("Covariance", tailleX, tailleY, true).save("otherTests/BesanconCov.jpg");
-	mosaique.creerMosaique("CovarianceCol", tailleX, tailleY, true).save("otherTests/BesanconCovCol.jpg");
-	mosaique.creerMosaique("MSE", tailleX, tailleY, true).save("otherTests/BesanconMSE.jpg");
-	mosaique.creerMosaique("MoyenneColInt", tailleX, tailleY, true).save("otherTests/BesanconMoyColInt.jpg");
-	
-	tailleX = 80;
-	tailleY = 80;
-	Bibliotheque bib2 = Bibliotheque("C:\\tofs2", false);
-	Mosaique mosaique2 = Mosaique(Image("C:\\P1060196.JPG"), bib2);
-	mosaique2.creerMosaique("SuperMSE", tailleX, tailleY, false).save("otherTests/myTestSuperMSE.jpg");
-	mosaique2.creerMosaique("Moyenne", tailleX, tailleY, false).save("otherTests/myTestMoy.jpg");
-	mosaique2.creerMosaique("MoyenneCol", tailleX, tailleY, false).save("otherTests/myTestMoyCol.jpg");
-	mosaique2.creerMosaique("MoyenneColInt", tailleX, tailleY, false).save("otherTests/myTestColInt.jpg");
-	mosaique2.creerMosaique("Covariance", tailleX, tailleY, false).save("otherTests/myTestCov.jpg");
-	mosaique2.creerMosaique("MSE", tailleX, tailleY, false).save("otherTests/myTestMSE.jpg");
-	/*
-	//mosaique.creerMosaique("Covariance", tailleX,tailleY).save("outputImages/altia_mono_cov.jpg");
-	//mosaique.creerMosaique("Covariance", tailleX,tailleY).save("outputImages/altia_mono_cov.jpg");
-	//mosaique.creerMosaique("Covariance", tailleX,tailleY).save("outputImages/altia_mono_cov.jpg");
-	//Mosaique mosaique = Mosaique(Image("C:\\P1060196.JPG"), bib);
-	
-	//cout << "Tests de la classe 2 "<<endl;
-
-//	bib.redimImageBib(tailleX,tailleY);
-	//mosaique.creerMosaique("Covariance", tailleX,tailleY).save("outputImages/altia_mono_cov.jpg");
-//	mosaique.creerMosaique("Moyenne", tailleX,tailleY).save("outputImages/altia_moyCol.jpg");
-	//mosaique.creerMosaique("Moyenne Old", tailleX,tailleY).save("outputImages/altia_mono_moy.jpg");
-//	mosaique.creerMosaique("New", tailleX,tailleY).save("outputImages/altia_byRMSE.jpg");
-	
-	
-	mosaique.setBibliotheque(&bib2);
-
-	//mosaique.creerMosaique("Covariance", tailleX,tailleY).save("outputImages/Alep_Input_cov.jpg");
-	mosaique.creerMosaique("Moyenne", tailleX,tailleY).save("outputImages/test.jpg");
-	//mosaique.creerMosaique("Moyenne Old", tailleX,tailleY).save("outputImages/Alep_Input_moy.jpg");
-	mosaique.creerMosaique("RMSE", tailleX, tailleY).save("outputImages/test2.jpg");
-	*/
-	cout << "Tests de la classe 2 Mosaique pas encore faits" << endl;
-	cout << "Il manque encore une fonction de resize d'image" << endl;
+	for (int i=0; i < 5; i+=5){
+		int tailleX = 10+i;
+		int tailleY = 10+i;
+		Mosaique mosaique = Mosaique(Image("test/Besancon.jpg"), bib);
+		mosaique.creerMosaique("SuperMSE", tailleX, tailleY, true).save("otherTests/BesanconSuperMSE.jpg");
+		mosaique.creerMosaique("Moyenne", tailleX, tailleY, true).save("otherTests/BesanconMoy.jpg");
+		mosaique.creerMosaique("MoyenneCol", tailleX, tailleY, true).save("otherTests/BesanconMoyCol.jpg");
+		mosaique.creerMosaique("Variance", tailleX, tailleY, true).save("otherTests/BesanconVar.jpg");
+		mosaique.creerMosaique("VarianceCol", tailleX, tailleY, true).save("otherTests/BesanconVarCol.jpg");
+		mosaique.creerMosaique("Covariance", tailleX, tailleY, true).save("otherTests/BesanconCov.jpg");
+		mosaique.creerMosaique("CovarianceCol", tailleX, tailleY, true).save("otherTests/BesanconCovCol.jpg");
+		mosaique.creerMosaique("MSE", tailleX, tailleY, true).save("otherTests/BesanconMSE.jpg");
+		mosaique.creerMosaique("MoyenneColInt", tailleX, tailleY, true).save("otherTests/BesanconMoyColInt.jpg");
+	}
+	cout <<	"Test de la classe Mosaique ... OK" << endl;
 }

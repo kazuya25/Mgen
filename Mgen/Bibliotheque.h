@@ -1,4 +1,5 @@
-#define _INC_BIB
+#ifndef _INC_BIBLIOTHEQUE_H
+#define _INC_BIBLIOTHEQUE_H
 #include <iostream>
 #include <cstdio>
 #include "image.h"
@@ -59,3 +60,8 @@ public:
 void rotateAllImagesInFolder(string inputfolder, string outputfolder);
 // fonction de recuperation des fichiers dans un dossier
 vector<string> getFilesInFolders(string folderPath);
+
+bool folderExists(string dir);
+bool fileExists(string file);
+
+#endif
