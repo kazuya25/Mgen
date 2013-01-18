@@ -11,7 +11,6 @@ void menu(int argc, char *argv[]){
 	cout <<endl<<endl<< "Bienvenue dans notre mosaiqueur"<<endl;
 	
 	string bib = "C:\\testMono";
-	Bibliotheque bib2;
 	string photo = "C:\\Besancon.jpg";
 	int longueur = 30;
 	int largeur = 30;
@@ -46,7 +45,6 @@ void menu(int argc, char *argv[]){
 			if(folderExists(choiceStr)) {
 				cout << "Dossier choisi" << endl;
 				bib = choiceStr;
-				bib2 = Bibliotheque(bib, false);
 				bibChoisie="OK";
 			}else bibChoisie = "KO";
 			break;
@@ -100,6 +98,7 @@ void menu(int argc, char *argv[]){
 			cout << "Creation de la bibliotheque ";
 			if (bibChoisie != "KO" && photoChoisie != "KO" && longueurChoisie != "KO" && largeurChoisie != "KO" && destinationChoisie != "KO") {
 				cout << "Chargement de l'image : ";
+				Bibliotheque bib2 = Bibliotheque(bib, false);
 				Mosaique mosaique = Mosaique(photo, bib2);
 				cout << "OK" << endl;
 
@@ -130,6 +129,7 @@ void menu(int argc, char *argv[]){
 				else break;
 				clock_t debut,fin;
 				debut = clock();
+				cout << destination <<endl;
 				mosaique.creerMosaique(what, largeur, longueur, false).save(destination);
 				fin = clock();
 				cout << "La méthode " <<what << " a mis un temps d'éxécution de : " << (fin - debut)/CLOCKS_PER_SEC << " secondes." << endl;
