@@ -14,7 +14,7 @@ private:
 	Bibliotheque *bibliotheque;
 public:
 	// Prend une image appellee modele et une bibliotheque
-	Mosaique(Image & const  mod, Bibliotheque & const  bib) : modele(mod), bibliotheque(&bib){};
+	Mosaique(Image    mod, Bibliotheque &   bib) : modele(mod), bibliotheque(&bib){};
 	//Accesseur 
 	Bibliotheque getBibliotheque();
 	Image getModele();

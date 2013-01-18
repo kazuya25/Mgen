@@ -222,7 +222,7 @@ void Bibliotheque::redimImageBib(int tailleX, int tailleY, bool useLoadedImages)
 	cout << endl;
 	cout << " => Stats : " << endl;
 	cout << "  -> Nombre de fichiers : " << size << endl;
-	cout << "  -> Duree : " << fin - debut << endl;
+	cout << "  -> Duree du redimensionnement: " << (fin - debut)/CLOCKS_PER_SEC <<" secondes."<< endl;
 	cout << "- Redimensionnement des images OK" << endl;
 }
 

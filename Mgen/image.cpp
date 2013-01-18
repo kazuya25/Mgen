@@ -485,8 +485,7 @@ double Image::moyenneDifference(Image &img) {
 }
 
 
-// TODO !
-// A retoucher !
+
 double Image::superMSE(Image &img, unsigned int power) {
 	if(this->width != img.width || this->height!=img.height) {
 		cout << "Attention vous calculez une covariance sur des img de taille différentes"<<endl;
@@ -497,7 +496,7 @@ double Image::superMSE(Image &img, unsigned int power) {
 		for(int i=0;i<this->width;i++) {
 			for(int j=0;j<this->height;j++) {
 				for(int c=0;c<3;c++) {
-					tmp += pow(abs((double)(*this)(i,j,c)-img(i,j,c)), (double) power);
+					tmp += pow(fabs( (double)(*this)(i,j,c)-img(i,j,c)), (double) power);
 				}
 			}
 				
@@ -505,4 +504,6 @@ double Image::superMSE(Image &img, unsigned int power) {
 		return pow(tmp, (double) 1/power);
 	}
 }
+
+
 #endif

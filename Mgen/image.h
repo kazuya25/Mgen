@@ -107,16 +107,16 @@ public:
 	double varianceCalculateurRVB(int col);
 	
 	//Calcul covariance des 3 couleurs par pixels sur toute la grille
-	double Image::covarianceCalculateur(Image &img);
+	double covarianceCalculateur(Image &img);
 
 	//Calcul covariance RVB (par couleur)
-	double Image::covarianceCalculateurRVB(Image &img,int col);
+	double covarianceCalculateurRVB(Image &img,int col);
 
 	//Calcul la somme des MSE par couleur
-	double Image::moyenneDifference(Image &img);
+	double moyenneDifference(Image &img);
 
 	//Calcul la somme des MSE par couleur et monochromatique
-	double Image::superMSE(Image &img, unsigned int);
+	double superMSE(Image &img, unsigned int);
 };
 
 #endif

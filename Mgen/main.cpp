@@ -11,6 +11,7 @@ void menu(int argc, char *argv[]){
 	cout <<endl<<endl<< "Bienvenue dans notre mosaiqueur"<<endl;
 	
 	string bib = "C:\\testMono";
+	Bibliotheque bib2;
 	string photo = "C:\\Besancon.jpg";
 	int longueur = 30;
 	int largeur = 30;
@@ -45,6 +46,7 @@ void menu(int argc, char *argv[]){
 			if(folderExists(choiceStr)) {
 				cout << "Dossier choisi" << endl;
 				bib = choiceStr;
+				bib2 = Bibliotheque(bib, false);
 				bibChoisie="OK";
 			}else bibChoisie = "KO";
 			break;
@@ -62,10 +64,10 @@ void menu(int argc, char *argv[]){
 		}
 		case 3:
 		{
-			cout << "Quelle est la longueur d'un petit element de la mosaique" << endl;
+			cout << "Quelle est la longueur d'un petit element de la mosaique (>2)" << endl;
 			getline(cin, choiceStr);
 			istringstream ( choiceStr ) >> choice2;
-			if(choice2 > 0) {
+			if(choice2 > 2) {
 				cout << "Longueur choisie" << endl;
 				longueurChoisie="OK";
 				longueur = choice2;
@@ -74,10 +76,10 @@ void menu(int argc, char *argv[]){
 		}
 		case 4:
 		{
-			cout << "Quelle est la largeur d'un petit element de la mosaique" << endl;
+			cout << "Quelle est la largeur d'un petit element de la mosaique (>2)" << endl;
 			getline(cin, choiceStr);
 			istringstream ( choiceStr ) >> choice2;
-			if(choice2 > 0) {
+			if(choice2 > 2) {
 				cout << "Largeur choisie" << endl;
 				largeurChoisie="OK";
 				largeur = choice2;
@@ -95,40 +97,45 @@ void menu(int argc, char *argv[]){
 		}
 		case 6:
 		{
-			cout << "Creation de la bibliotheque ?";
-			Bibliotheque bib2 = Bibliotheque(bib, false);
-			cout << "OK" << endl;
+			cout << "Creation de la bibliotheque ";
+			if (bibChoisie != "KO" && photoChoisie != "KO" && longueurChoisie != "KO" && largeurChoisie != "KO" && destinationChoisie != "KO") {
+				cout << "Chargement de l'image : ";
+				Mosaique mosaique = Mosaique(photo, bib2);
+				cout << "OK" << endl;
 
-			cout << "Chargement de l'image ?";
-			Mosaique mosaique = Mosaique(Image("C:\\P1060196.JPG"), bib2);
-			cout << "OK" << endl;
-
-			cout << "Choisir la methode" << endl;
-			cout << "[1]\t - Moyenne"  << endl;
-			cout << "[2]\t - Moyenne par couleur" << endl;
-			cout << "[3]\t - Variance" << endl;
-			cout << "[4]\t - Variance par couleur" << endl;
-			cout << "[5]\t - Covariance" << endl;
-			cout << "[6]\t - Covariance par couleur" << endl;
-			cout << "[7]\t - Erreur quadratique pixel/pixel" << endl;
-			cout << "[8]\t - Ponderation Intensite/couleur (+efficace)" << endl;
-			cout << "[9]\t - Erreur en valeur absolue pixel/pixel" << endl;
-			cout << "[0]\t - Revenir au menu precedent" << endl;
-			getline(cin, choiceStr);
+				cout << "Choisir la methode" << endl;
+				cout << "[1]\t - Moyenne"  << endl;
+				cout << "[2]\t - Moyenne par couleur" << endl;
+				cout << "[3]\t - Variance" << endl;
+				cout << "[4]\t - Variance par couleur" << endl;
+				cout << "[5]\t - Covariance" << endl;
+				cout << "[6]\t - Covariance par couleur" << endl;
+				cout << "[7]\t - Erreur quadratique pixel/pixel" << endl;
+				cout << "[8]\t - Ponderation Intensite/couleur (+efficace)" << endl;
+				cout << "[9]\t - Erreur en valeur absolue pixel/pixel" << endl;
+				cout << "[0]\t - Revenir au menu precedent" << endl;
+				getline(cin, choiceStr);
 			
-			istringstream ( choiceStr ) >> choice2;
-			string what;
-			if		(choice2==1)		what = "Moyenne";
-			else if (choice2==2)		what = "MoyenneCol";
-			else if (choice2==3)		what = "Variance";
-			else if (choice2==4)		what = "VarianceCol";
-			else if (choice2==5)		what = "Covariance";
-			else if (choice2==6)		what = "CovarianceCol";
-			else if (choice2==7)		what = "MSE";
-			else if (choice2==8)		what = "MoyenneColInt";
-			else if (choice2==9)		what = "superMSE";
-			else break;
-			mosaique.creerMosaique(what, largeur, longueur, false).save(destination);
+				istringstream ( choiceStr ) >> choice2;
+				string what;
+				if		(choice2==1)		what = "Moyenne";
+				else if (choice2==2)		what = "MoyenneCol";
+				else if (choice2==3)		what = "Variance";
+				else if (choice2==4)		what = "VarianceCol";
+				else if (choice2==5)		what = "Covariance";
+				else if (choice2==6)		what = "CovarianceCol";
+				else if (choice2==7)		what = "MSE";
+				else if (choice2==8)		what = "MoyenneColInt";
+				else if (choice2==9)		what = "SuperMSE";
+				else break;
+				clock_t debut,fin;
+				debut = clock();
+				mosaique.creerMosaique(what, largeur, longueur, false).save(destination);
+				fin = clock();
+				cout << "La méthode " <<what << " a mis un temps d'éxécution de : " << (fin - debut)/CLOCKS_PER_SEC << " secondes." << endl;
+			}else{
+				cout << "Vous n'avez pas fait tous vos choix !! " <<endl<<endl;
+			}
 			break;
 		}
 		case 7:
@@ -147,18 +154,17 @@ int main(int argc, char *argv[])
 {
 	// Lance une batterie de tests pour l'aide au developpement (merci de toujours garder ces tests)
 	// Dans l'ordre de création
-	if (argc > 0 && string(argv[1]) == "test") {
+	if ( argc >1 &&string(argv[1]) == "test" ) {
 		testBibiliotheque();
 		testImage();
 		testImage2();
 		testMosaique();
+		//cout << argv[1];
+		cout << "Tests termines et conformes" << endl;
 	}
-	cout << argv[1];
-	cout << "Tests termines et conformes" << endl;
-
-	menu(argc, argv);
-
-	return 0;
+	
+		menu(argc, argv);
+		return 0;
 }
 
 

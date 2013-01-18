@@ -2,6 +2,7 @@
 #define _INC_MOSAIQUE_CPP
 
 #include "Mosaique.h"
+#include <cmath>
 //#include "Bibliotheque.h"
 
 //Accesseur
@@ -23,6 +24,7 @@ void Mosaique::setBibliotheque(Bibliotheque *bib) {
 //Puis on cherche celle qui correspondent le mieu à nos sous images
 Image Mosaique::creerMosaique(string methode, int tailleX, int tailleY, bool useLoadedImages)
 {
+	cout << "Creation de la mosaique avec la methode "<<methode <<endl;
 	if(!this->bibliotheque->redim ||  this->bibliotheque->redimImages[0].getWidth() != tailleX || this->bibliotheque->redimImages[0].getHeight() != tailleY) {
 		this->bibliotheque->redimImageBib(tailleX, tailleY, useLoadedImages);
 	}
@@ -41,50 +43,25 @@ Image Mosaique::creerMosaique(string methode, int tailleX, int tailleY, bool use
 	else if (methode == "SuperMSE")			fct = &Mosaique::superMSE;
 	else throw "Cette methode n'existe pas : '" + methode + "' !";
 
-
+	int avancement = 0;
 	for (int i = 0 ; i < images.size(); i++)
 	{
+		int newAvancement = (int)(i * 100 / images.size());
+		if (newAvancement > avancement){
+			avancement = newAvancement;
+			cout << avancement << "% .. ";
+		}
+
 		vector<Image> ligne = images[i];
 		vector<Image> newLigne;
 		//cout << "Image "<<i<<endl;
 		for (int j = 0; j < ligne.size(); j++){
 			Image img = Image((this->*fct)(ligne[j]));
 			newLigne.push_back(img.subImage(0,0,ligne[j].getWidth(),ligne[j].getHeight()));
-			/*
-			if(methode == "Moyenne"){
-				Image img = Image(plusProcheMoyenne(ligne[j]));
-				
-			}else if(methode == "MoyenneCol") {
-				Image img = Image(plusProcheMoyenneByCouleur(ligne[j]));
-				newLigne.push_back(img.subImage(0,0,ligne[j].getWidth(),ligne[j].getHeight()));
-			}else if (methode == "Variance"){
-				Image img = Image(plusProcheVariance(ligne[j]));
-				newLigne.push_back(img.subImage(0,0,ligne[j].getWidth(),ligne[j].getHeight()));
-			}else if (methode == "VarianceCol"){
-				Image img = Image(plusProcheVarianceByCouleur(ligne[j]));
-				newLigne.push_back(img.subImage(0,0,ligne[j].getWidth(),ligne[j].getHeight()));
-			}else if (methode == "Covariance"){
-				Image img = Image(plusProcheCovariance(ligne[j]));
-				newLigne.push_back(img.subImage(0,0,ligne[j].getWidth(),ligne[j].getHeight()));
-			}else if (methode == "CovarianceCol"){
-				Image img = Image(plusProcheCovarianceByCouleur(ligne[j]));
-				newLigne.push_back(img.subImage(0,0,ligne[j].getWidth(),ligne[j].getHeight()));
-			}else if(methode == "MSE"){
-				Image img = Image(MSE(ligne[j]));
-				newLigne.push_back(img.subImage(0,0,ligne[j].getWidth(),ligne[j].getHeight()));
-			}else if(methode == "MoyenneColInt"){
-				Image img = Image(plusProcheCouleurIntensite(ligne[j]));
-				newLigne.push_back(img.subImage(0,0,ligne[j].getWidth(),ligne[j].getHeight()));
-			}else if(methode == "SuperMSE"){
-				Image img = Image(superMSE(ligne[j]));
-				newLigne.push_back(img.subImage(0,0,ligne[j].getWidth(),ligne[j].getHeight()));
-			}else throw "Cette methode n'existe pas : '" + methode + "' !";
-			*/
-			
 		}
 		newImages.push_back(newLigne);
 	}
-	
+	cout << endl;
 	return(Image(newImages));
 }
 
@@ -97,7 +74,7 @@ Image Mosaique::plusProcheMoyenne(Image a)
 	int bestInd = 0;
 	for(int i = 0; i < (bibliotheque->redimImages).size(); i++)
 	{
-		double toCompare = abs( (bibliotheque->redimImages)[i].get("Moyenne") - moyenne );
+		double toCompare = fabs( (bibliotheque->redimImages)[i].get("Moyenne") - moyenne );
 		if (toCompare < bestCompare) 
 		{
 			bestInd = i;
@@ -265,4 +242,5 @@ Image Mosaique::plusProcheCouleurIntensite(Image a)
 	}
 	return (bibliotheque->redimImages)[bestInd];
 }
+
 #endif
